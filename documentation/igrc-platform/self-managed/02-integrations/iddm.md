@@ -44,6 +44,34 @@ To validate the configuration please check the the directory browser that:
 - The attribute `objectClass=domain` is present for the label  
 - That the users and groups are present  
 
+### Entra backend configuration
+
+The connection to the Entra domain backend should have been configured as an "Mgraph" type datasource in the "Data sources" tab of the "Data catalogue". Once the configuration finalized it is necessary to update the default schema used for the user configuration.
+The Primary key has to be changed from the UserPrincipalName to the ID.  
+
+![Update the default schema for Entra](./images/IDDM-entra-schema-configuration.png)
+
+On the backend and the schema updated navigate to the "Namespace Design" of the "Directory Namespace" to configure the namespace.
+
+- Create a new level named `o=IDAEntra` for example and add the organization objectClass to the level
+- Select the `o=IDAEntra` entry and create a new label under it based on the name of the Entra tenant pulled, `o=bwdev01` in our example. Add the organization and domain objectClasses to the label
+- Select the `o=bwdev01` level and create a new content level  
+![Create content level](./images/IDDM-Entra-content-level.png)
+  - Select the configured datasource in the drop down list
+  - Select the datasource schema from the drop down list and click next
+  - Select the `user` object to mount  
+  ![User](./images/IDDM-entra-user-content-selection.png)
+  - Navigate to the object build tab and add all necessary attributes (select all if in doubt)
+- Select the `o=bwdev01` level and create a new content level  
+![Create content level](./images/IDDM-Entra-content-level.png)
+  - Select the configured datasource in the drop down list
+  - Select the datasource schema from the drop down list and click next
+  - Select the `group` object to mount  
+  ![User](./images/IDDM-entra-group-content-selection.png)
+  - Navigate to the object build tab and add all necessary attributes (select all if in doubt)
+
+Navigate to the directory browser page and select the `o=bwdev01` level under `o=IDAEntra` and validate the configuration.  
+
 ### LDAP backend configuration
 
 The LDAP backend should have been configured in the IDDM control panel. The configuration is similar to the configuration for the Active Domain backend. To create the required hierarchy in IDDM please follow these steps:  
@@ -77,6 +105,7 @@ In this section we can see the list of datasources if any has been declared. The
 A wizard to declare a new datasources will pop up including default configurations for the connection to RadiantOne IDDM:
 
 - RadiantOne - Active Directory  
+- RadiantOne - Entra  
 - RadiantOne - Generic LDAP  
 - RadiantOne - Generic Bridge  
 
@@ -92,6 +121,23 @@ Fill out the required field, for example:
 
 - Datasource Name: o=IDAAD
 - Datasource description: Extraction of all AD domains included in the root naming context of o=IDAAD
+
+The Options are configured by default and no modification is required. You can adjust your search filter to limit the data extraction.  
+
+> It is of course possible to change the parameters to correspond to your data structure in Identity Data Manager. Please keep in mind that the `dc` attribute is required.
+
+Follow the wizard for the final steps.  
+
+### RadiantOne - Entra
+
+This connector is to be used when connecting to an Entra backend through Identity Data Manager. See [here](#entra-backend-configuration) for the required configuration of the namespace in iddm.  
+
+![RadiantOne - Active Directory datasource configuration](./images/R1-Entra-datasource-configuration.png)
+
+Fill out the required field, for example:
+
+- Datasource Name: o=IDAEntra
+- Datasource description: Extraction of all AD domains included in the root naming context of o=IDAEntra
 
 The Options are configured by default and no modification is required. You can adjust your search filter to limit the data extraction.  
 
