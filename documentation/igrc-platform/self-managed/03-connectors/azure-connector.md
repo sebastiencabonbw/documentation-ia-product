@@ -32,10 +32,10 @@ To create and register the application, follow the steps outlined below.
 ![Application creation](images/Picture2.png)  
 5. Enter the desired name for your application, for example "AD Azure Data Extraction".
 6. Select the type of accounts that can access the application. We recommend using the single tenant option: "Accounts in the organizational directory only".
-![Application creation](images/Picture3.png)  
 7. In Redirect URI, select the "Public client (mobile & desktop)" option in the dedicated combo.
 8. Next, click "Register".
-9. Once the application is created, copy and store the "Application (client) ID". This parameter will be used in the Identity Analytics service to configure the extractor:  
+![Application creation](images/Picture3.png)  
+10. Once the application is created, copy and store the "Application (client) ID". This parameter will be used in the Identity Analytics service to configure the extractor:  
 ![Application creation](images/Picture4.png)  
 
 #### Application permission configuration
