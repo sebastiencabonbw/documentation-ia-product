@@ -7,7 +7,7 @@ parent: "Integrations"
 
 Radiant Logic offers two complementary products in the identity data space: Identity Data Management and Identity Analytics. This guide focuses on creating and configuring Views within Identity Data Management to streamline the integration of identity data into the Identity Analytics repository, requiring minimal configuration within the Identity Data Analytics platform itself.
 
-Currently, Identity Data Management  supports the following data sources for direct View integration with IDA:
+Currently, Identity Data Management supports the following data sources for direct View integration with Identity Analytics:
 
 Active Directory domains – Users and Groups
 
