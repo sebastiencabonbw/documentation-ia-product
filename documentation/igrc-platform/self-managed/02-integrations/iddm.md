@@ -101,7 +101,7 @@ This section displays a list of declared data sources. If none have been configu
 
 ![Add Datasource](images/radiantone_datasource_add.png "Add Datasource")
 
-A wizard will appear to help you declare a new datasource, including default configurations for connecting to RadiantOne Identity Data Management: 
+A wizard will launch to help you declare a new datasource, including default configurations for connecting to RadiantOne Identity Data Management: 
 
 - RadiantOne - Active Directory  
 - RadiantOne - Entra  
@@ -203,7 +203,7 @@ Click on the connector to see more details.
 
 ![Controller Connectors Details](images/radiantone_controller_details.png "Controller Connectors Details")
 
-From here, you can use the button *Submit a new test execution* to trigger the data extraction process. This process takes a few minutes.
+From here, you can use the *Submit a new test execution* button to trigger the data extraction process. This process takes a few minutes.
 
 When the data extraction test process is complete, the details page will automatically refresh to display the test results.
 
