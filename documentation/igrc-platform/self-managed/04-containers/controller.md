@@ -3,7 +3,7 @@ title: Controller
 description: Documentation for controller usage and configuration
 ---
 
-# The controller
+# Controller
 
 ## Home page
 
