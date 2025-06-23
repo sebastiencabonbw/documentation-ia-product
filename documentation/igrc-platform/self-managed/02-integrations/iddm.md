@@ -19,7 +19,7 @@ Identity Analytics requires data in Identity Data Management to be configured in
 
 ### Active Directory backend configuration
 
-The Active Directory domain backend must be configured in the Identity Data Management control panel. To create the required hierarchy in IDDM please follow these steps:  
+The Active Directory domain backend must be configured in the Identity Data Management control panel. To create the required hierarchy in Identity Data Management, follow these steps:  
 
 - In the "Directory Namespace" tab, create a new naming context `o=IDAAD` based on a virtual tree.
 
