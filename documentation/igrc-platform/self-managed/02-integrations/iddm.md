@@ -67,7 +67,7 @@ On the backend and the schema updated navigate to the "Namespace Design" of the 
   - Select the configured datasource in the drop down list
   - Select the datasource schema from the drop down list and click next
   - Select the `group` object to mount  
-  ![User](./images/IDDM-entra-group-content-selection.png)
+  ![User](./images/IDDM-Entra-group-content-selection.png)
   - Navigate to the object build tab and add all necessary attributes (select all if in doubt)
 
 Navigate to the directory browser page and select the `o=bwdev01` level under `o=IDAEntra` and validate the configuration.  
