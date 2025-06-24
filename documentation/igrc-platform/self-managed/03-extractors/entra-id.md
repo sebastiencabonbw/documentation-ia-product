@@ -1,16 +1,16 @@
 ---
-title: Azure Active Directory connector configuration
-description: Configuration of the Azure Active Directory connector
+title: Entra ID extractor configuration
+description: Configuration of the Entra ID extractor
 ---
 
-# Azure Active Directory (Entra ID) connector configuration
+# Azure Active Directory (Entra ID) extractor configuration
 
 This documentation describes how to use scripts provided by Identity Analytics to extract the objects (groups, accounts, etc.) from Azure Active Directory (now known as Entra ID) environments. The provided script `azureadmain.py` has been designed to simplify the data extraction to obtain the import files required for the Identity Analytics Azure Active Directory add-on.
 
 The script enables the extraction of objects managed in Azure Active Directory, such as users, groups, group members, and group owners.
 The extraction script is stored in `bwconnectors/azureadmain.py`
 
-## Azure Active Directory Configuration
+## Entra ID Configuration
 
 To enable data extraction, an application must be registered in Entra ID. We recommend creating a dedicated application specifically for the Identity Analytics service.
 
@@ -20,7 +20,7 @@ Once you create an application in Entra ID, you will need to store:
 * The client secret
 * The azure tenant Id
 
-To create and register the application, follow the steps outlined below.  
+To create and register the application, follow the steps outlined below. For additional details, read the [Register app](https://learn.microsoft.com/en-us/entra/identity-platform/quickstart-register-app) documentaion.
 
 ### Application creation
 
@@ -71,7 +71,7 @@ Once you grant consent, you should see the following status:
 
 ## Portal configuration
 
-### Configure the connector
+### Configure the extractor
 
 1. Open The 'Datasource Management -> configuration' Menu.
 2. Click on Add.  
@@ -90,7 +90,7 @@ Once you grant consent, you should see the following status:
 ![Add connector](images/Picture17.jpg)  
 8. Click Finish.  
 ![Add connector](images/Picture18.jpg)  
-9. Additionally, if you want to review or modify your connector parameters, you can edit it: 
+9. Additionally, if you want to review or modify your extractor parameters, you can edit it: 
 ![Add connector](images/Picture19.jpg)
 
 ### Extractor validation
