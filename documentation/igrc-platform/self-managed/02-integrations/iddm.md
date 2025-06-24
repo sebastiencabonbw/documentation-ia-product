@@ -123,13 +123,13 @@ Fill out the required fields. Example:
 
 Options are configured by default and no modification is required. You can adjust your search filter to limit the data extraction.  
 
-> If needed, you may change the parameters to correspond to your data structure in Identity Data Manager. Note that the `dc` attribute is required.
+> If needed, you may change the parameters to correspond to your data structure in Identity Data Management. Note that the `dc` attribute is required.
 
 Follow the steps shown in the wizard and complete them.  
 
 ### RadiantOne - Entra
 
-This connector is used when connecting to an Entra backend through Identity Data Manager. See [here](#entra-backend-configuration) for the required configuration of the namespace in Identity Data Management.  
+This connector is used when connecting to an Entra backend through Identity Data Management. See [here](#entra-backend-configuration) for the required configuration of the namespace in Identity Data Management.  
 
 ![RadiantOne - Active Directory datasource configuration](./images/R1-Entra-datasource-configuration.png)
 
@@ -140,13 +140,13 @@ Fill out the required fields. Example:
 
 Options are configured by default and no modification is required. You can adjust your search filter to limit the data extraction.  
 
-> If needed, you may change the parameters to correspond to your data structure in Identity Data Manager. Please keep in mind that the `dc` attribute is required.
+> If needed, you may change the parameters to correspond to your data structure in Identity Data Management. Please keep in mind that the `dc` attribute is required.
 
 Follow the steps shown in the wizard and complete them.  
 
 ### RadiantOne - Generic LDAP
 
-This connector is used when connecting to a generic LDAP backend in Identity Data Manager.  
+This connector is used when connecting to a generic LDAP backend in Identity Data Management.  
 
 ![RadiantOne - Active Directory datasource configuration](./images/R1-LDAP-datasource-configuration.png)
 
@@ -157,13 +157,13 @@ Fill out the required fields. Example:
 
 Options are configured by default and no modification is required. You can adjust your search filter to limit the data extraction.  
 
-> If needed, you may change the parameters to correspond to your data structure in Identity Data Manager. Please keep in mind that the `dc` attribute is required.
+> If needed, you may change the parameters to correspond to your data structure in Identity Data Management. Please keep in mind that the `dc` attribute is required.
 
 Follow the wizard for the final steps.  
 
 ### RadiantOne - Generic Bridge
 
-This connector is used as a bridge between Identity Data Manager and Identity Analytics.
+This connector is used as a bridge between Identity Data Management and Identity Analytics.
 
 > This connector requires configuration of a dedicated collector line to leverage the input files.  
 
