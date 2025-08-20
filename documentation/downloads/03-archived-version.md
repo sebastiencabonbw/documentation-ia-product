@@ -7,12 +7,11 @@ description: iGRCanalytics archived versions
 
 ## Download archive
 
-Please navigate to one of the following links to download the desired version of the product:  
+Follow the instructions below to download the latest version of the product:
 
-- [**Download Descartes**](https://radiantlogicinc246.sharefile.com/d-sd67f43dc9aef41a7adaa0bdc8bd7e54d)
-- [**Download Curie**](https://radiantlogicinc246.sharefile.com/d-s1c9e7c13b0454b6884259362232d5181)
+- The installer files are available on the [Radiant Logic support site](https://files.radiantlogic.com/receive/?packageCode=IX0qTSRyilShjhpxusLWpUDzzb4rduq2tO9F81NhEt4&_gl=1*q7lxkc*_gcl_au*MTMzMzk5Nzk2Ny4xNzQ4OTAxODM3*_ga*Nzc4OTMwMzM4LjE3MjU0ODgwMjM.*_ga_YZH5L9V98P*czE3NTU3MDIyOTgkbzgwMCRnMSR0MTc1NTcwMzk0MiRqNjAkbDAkaDE0OTg0ODg0MDM.#keycode=Niad1bODfyRmdW8PlGO-5In0mdRKsa0u6551qXXI1rA). Once logged in, you can access it by navigating to Home > Customer Downloads > Installers > IDA. 
 
-> [note!] You will need to create an account to access the files (see [here](https://radiantlogicinc246.sharefile.com/i/i1bc2de34c6e42bba)). There is not an FTP site to access these files. If your organization does not allow access to Sharefile, please reach out to the Radiant Logic support team and provide an organizationally approved location where we can upload the relevant files.
+Contact [support@radiantlogic.com](mailto:support@radiantlogic.com) for access information.eam and provide an organizationally approved location where we can upload the relevant files.
 
 ## Third party driver installation
 

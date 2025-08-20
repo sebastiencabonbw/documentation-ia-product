@@ -34,9 +34,9 @@ Please see the [release notes](./08-release-notes-descartes-r5.md) for the full 
 
 Please navigate to the following link to download the latest version of the product:
 
-- [**Download Descartes R5 SP6**](https://radiantlogicinc246.sharefile.com/d-s81602689e3424bf182a0104a3b0dd7a3)
+- The installer files are available on the [Radiant Logic support site](https://files.radiantlogic.com/receive/?packageCode=IX0qTSRyilShjhpxusLWpUDzzb4rduq2tO9F81NhEt4&_gl=1*q7lxkc*_gcl_au*MTMzMzk5Nzk2Ny4xNzQ4OTAxODM3*_ga*Nzc4OTMwMzM4LjE3MjU0ODgwMjM.*_ga_YZH5L9V98P*czE3NTU3MDIyOTgkbzgwMCRnMSR0MTc1NTcwMzk0MiRqNjAkbDAkaDE0OTg0ODg0MDM.#keycode=Niad1bODfyRmdW8PlGO-5In0mdRKsa0u6551qXXI1rA). Once logged in, you can access it by navigating to Home > Customer Downloads > Installers > IDA. 
 
-> [note!] You will need to create an account to access the files (see [here](https://radiantlogicinc246.sharefile.com/i/i1bc2de34c6e42bba)). There is not an FTP site to access these files. If your organization does not allow access to Sharefile, please reach out to the Radiant Logic support team and provide an organizationally approved location where we can upload the relevant files.
+Contact [support@radiantlogic.com](mailto:support@radiantlogic.com) for access information.
 
 See [below](#how-to-calculate-the-hash) for more information on how to check the integrity of your download.
 
