@@ -76,7 +76,7 @@ When defining or editing workflow advanced properties, you then will be able to 
 
 ![Workflow Type 4](./images/WorkflowType4.png "Workflow Type 4")
 
-The criteria definition for timeslots having active workflow is done the same way as for standard timeslot criteria, beginning with the selection of workflow type:  
+The criteria definition for timeslots having existing workflow is done the same way as for standard timeslot criteria, beginning with the selection of workflow type:  
 
 ![Workflow Type 5](./images/WorkflowType5.png "Workflow Type 5")
 
