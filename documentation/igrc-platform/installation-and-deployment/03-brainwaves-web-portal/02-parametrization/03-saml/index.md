@@ -7,33 +7,33 @@ description: "SAML Access"
 
 The SAML authentication allows to rely on a federated identity repository. In this case, `Tomcat` will **delegate** the `authentication` and the `authorization` mechanism to a third party (the Identity Provider).
 
-This use case is very interesting when an **Identity Provider** has been deployed in the company or if the solution aims to be used from a **Cloud based** environment. It will literally rely on the Identity Provider for such purposes.  
+This use case is very interesting when an **Identity Provider** has been deployed in the company or if the solution aims to be used from a **Cloud based** environment. It will literally rely on the Identity Provider for such purposes.
 
-What's interesting here is that the Identity Provider does not need to be installed on the Tomcat server, it is another server.  
+What's interesting here is that the Identity Provider does not need to be installed on the Tomcat server, it is another server.
 
-> When authenticating in **federated** mode, the protocol of choice is [SAMLv2](https://wiki.oasis-open.org/security/FrontPage#SAML_V2.0_Standard).  
+> When authenticating in **federated** mode, the protocol of choice is [SAMLv2](https://wiki.oasis-open.org/security/FrontPage#SAML_V2.0_Standard).
 
-Here is how it works:  
+Here is how it works:
 
-- The **User Agent (UA)** is the end user web browser  
-- The **Service Provider (SP)** is the Identity Analytics tomcat web server  
-- The **Identity Provider (IdP)** is the third party accountable for authentication and authorization  
+- The **User Agent (UA)** is the end user web browser
+- The **Service Provider (SP)** is the Identity Analytics tomcat web server
+- The **Identity Provider (IdP)** is the third party accountable for authentication and authorization
 
 ![SAML access architecture](../images/SAML_access_architecture.png "SAML access architecture")
 
 As you can see here, everything is done through the `HTTP`/`HTTPS` protocol with simple `HTTP redirects` and `HTTP forms`.  
 When the user attempts to connect to the service provider, it detects that the user is not authenticated, generates a **challenge** in `SAML` format and redirects the user to the **identity provider** with this challenge.  
-The **identity provider** analyses the challenge, authenticates the user and redirects him to the **service provider** with a `response`. The response contains all the required information regarding the **user** and his **roles**.  
+The **identity provider** analyses the challenge, authenticates the user and redirects him to the **service provider** with a `response`. The response contains all the required information regarding the **user** and his **roles**.
 
-The `SAML` challenge/response mechanism involves `XML`, `time stamping` and `XML digital signature` (at a glance, a challenge is sent to the **identity provider**, a response is built by the **identity provider**, it contains the user _identity_, his _roles_, the initial challenge and a validity time frame. The response is **digitally signed** by the identity provider. The response is sent back to the **service provider** which verifies the digital signature, the challenge, the validity time frame and acts accordingly).  
+The `SAML` challenge/response mechanism involves `XML`, `time stamping` and `XML digital signature` (at a glance, a challenge is sent to the **identity provider**, a response is built by the **identity provider**, it contains the user _identity_, his _roles_, the initial challenge and a validity time frame. The response is **digitally signed** by the identity provider. The response is sent back to the **service provider** which verifies the digital signature, the challenge, the validity time frame and acts accordingly).
 
-Almost all major players are now leveraging the `SAMLv2` protocol to authenticate users and are acting as **Identity providers (Idp)**:  
+Almost all major players are now leveraging the `SAMLv2` protocol to authenticate users and are acting as **Identity providers (Idp)**:
 
 - Microsoft ADFS
 - Google G suite
 - Sales force
 
-You can also delegate authentication and authorization to best of breed solutions through the `SAMLv2` protocol:  
+You can also delegate authentication and authorization to best of breed solutions through the `SAMLv2` protocol:
 
 - Okta
 - InWebo
@@ -42,9 +42,9 @@ You can also delegate authentication and authorization to best of breed solution
 - Forgerock
 - ...
 
-Identity Analytics is providing a sample implementation of the `SAMLv2` protocol for `Tomcat 8/9`. You will find here all the information needed to configure `SAMLv2` support for authentication and authorization with a **third party Idp**.  
+Identity Analytics is providing a sample implementation of the `SAMLv2` protocol for `Tomcat 8/9`. You will find here all the information needed to configure `SAMLv2` support for authentication and authorization with a **third party Idp**.
 
-This implementation is `SAMLv2` compliant and should be used with **any identity providers** `SAMLv2` compliant.  
+This implementation is `SAMLv2` compliant and should be used with **any identity providers** `SAMLv2` compliant.
 
 ## Configuration procedure
 
@@ -65,54 +65,57 @@ At the end, no matter the IdP solution, a XML metadata file that represents this
 
 ### Step 2: Deploy SAML configuration in Tomcat
 
-In the following procedure, we will use below variables:  
+In the following procedure, we will use below variables:
 
-|         Variable         |                                  Description                                  |          Example value          |
-| :----------------------: | :---------------------------------------------------------------------------: | :-----------------------------: |
-| `TOMCAT_INSTALL_FOLDER`  |                        Tomcat installation root folder                        |          /etc/tomcat9/          |
-|   `TOMCAT_CONF_FOLDER`   |                Folder that contains Tomcat configuration files                |        /etc/tomcat9/conf        |
-| `TOMCAT_LIB_FOLDER_HOME` |             Folder that contains all libraries used by the Tomcat             |     /usr/share/tomcat9/lib      |
+|         Variable         |                                      Description                                       |          Example value          |
+| :----------------------: | :------------------------------------------------------------------------------------: | :-----------------------------: |
+| `TOMCAT_INSTALL_FOLDER`  |                            Tomcat installation root folder                             |          /etc/tomcat9/          |
+|   `TOMCAT_CONF_FOLDER`   |                    Folder that contains Tomcat configuration files                     |        /etc/tomcat9/conf        |
+| `TOMCAT_LIB_FOLDER_HOME` |                 Folder that contains all libraries used by the Tomcat                  |     /usr/share/tomcat9/lib      |
 |    `SAML_BW_ARCHIVE`     | Archive that contains Identity Analytics JAVA library used to perform SAML AuthN/AuthZ |   bw-tomcat-9.0-saml-libs.zip   |
 |      `SAML_BW_LIB`       |            Identity Analytics JAVA library used to perform LDAP AuthN/AuthZ            | bw-tomcat-9.0-addons.jre8-X.jar |
-| `SAML_ROLE_MAPPING_FILE` |         File that contains mapping between AD groups and Portal roles         |     rolemapping.properties      |
-| `SAML_IDP_METADATA_FILE` |            XML IdP configuration metadata file provided by the IdP            |        idp-metadata.xml         |
-| `SAML_SP_METADATA_FILE`  |                      XML SP configuration metadata file                       |         sp-metadata.xml         |
-| `SAML_STATIC_ROLE_FILE`  |                        File that contains static roles                        |      staticrole.properties      |
-|      `WEBAPP_NAME`       |                        Name of the iGRC Tomcat webapp                         |             sandbox             |
+| `SAML_ROLE_MAPPING_FILE` |             File that contains mapping between AD groups and Portal roles              |     rolemapping.properties      |
+| `SAML_IDP_METADATA_FILE` |                XML IdP configuration metadata file provided by the IdP                 |        idp-metadata.xml         |
+| `SAML_SP_METADATA_FILE`  |                           XML SP configuration metadata file                           |         sp-metadata.xml         |
+| `SAML_STATIC_ROLE_FILE`  |                            File that contains static roles                             |      staticrole.properties      |
+|      `WEBAPP_NAME`       |                             Name of the iGRC Tomcat webapp                             |             sandbox             |
 |       `WEBAPP_URI`       |                           Identity Analytics Web Portal URI                            |         /sandbox/portal         |
 |       `WEBAPP_URL`       |                           Identity Analytics Web Portal URL                            |     https://localhost:8080      |
 
 #### Prerequisites
 
-To ensure this installation procedure, you should first download some required `<SAML_BW_ARCHIVE>` and `<SAML_BW_LIB>` Identity Analytics libraries available [here](https://download.brainwavegrc.com/index.php/s/n3qGRqKgtADw4Hn) depending on the Tomcat version installed:  
+To ensure this installation procedure, you should first download some required `<SAML_BW_ARCHIVE>` and `<SAML_BW_LIB>` Identity Analytics libraries available [here](https://download.brainwavegrc.com/index.php/s/n3qGRqKgtADw4Hn) depending on the Tomcat version installed:
 
-- Tomcat 8 (tested with **Tomcat 8.5.9**)
+- Tomcat 8.5 (tested with **Tomcat 8.5.9**) with Java 8
   - `bw-tomcat-8.5-saml-libs.zip`
   - `bw-tomcat-8.5-addons.jre8-X.jar`
-- Tomcat 9 (tested with **Tomcat 9.0.53**)
-  - `bw-tomcat-9.0-saml-libs.zip`
-  - `bw-tomcat-9.0-addons.jre8-X.jar`
+- Tomcat 9 (tested with **Tomcat 9.0.84**) with Java 8
+  - `bw-tomcat-9.0.XX-saml-libs-YYY.zip`
+  - `bw-tomcat-9.0.XX-addons.java1.8-YYY.jar`
+- Tomcat 9 (tested with **Tomcat 9.0.84**) with Java 17
+  - `bw-tomcat-9.0.XX-saml-libs-java17-YYY.zip`
+  - `bw-tomcat-9.0.XX-addons.java17-YYY.jar`
 
-It is also admitted that:  
+It is also admitted that:
 
-- Tomcat instance is installed and available  
-- The operator has RW privileges in needed files and folders to proceed to the installation  
+- Tomcat instance is installed and available
+- The operator has RW privileges in needed files and folders to proceed to the installation
 
-> This sample implementation relies on [OpenSAML](https://wiki.shibboleth.net/confluence/display/OpenSAML/Home) and [LastPass SAML](https://github.com/lastpass/saml-sdk-java), both provided under `Apache License`, Version 2.0.  
+> This sample implementation relies on [OpenSAML](https://wiki.shibboleth.net/confluence/display/OpenSAML/Home) and [LastPass SAML](https://github.com/lastpass/saml-sdk-java), both provided under `Apache License`, Version 2.0.
 
 #### Tomcat configuration
 
-> If you are under Linux, beware of files and folders rights.  
+> If you are under Linux, beware of files and folders rights.
 
-First step is to deploy Identity Analytics SAML libraries, JDBC driver and Authenticators in Tomcat:  
+First step is to deploy Identity Analytics SAML libraries, JDBC driver and Authenticators in Tomcat:
 
-Under the `<TOMCAT_LIB_FOLDER_HOME>` folder.  
+Under the `<TOMCAT_LIB_FOLDER_HOME>` folder.
 
 - Add following files: `<SAML_BW_ARCHIVE>`
 - Unzip the archive in this folder: `<SAML_BW_LIB>`
 - Create a folder `org/apache/catalina/startup`. In this folder, create a `Authenticators.properties` file with below content
 
-```properties  
+```properties
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.
@@ -183,8 +186,8 @@ Above fields should be set accordingly to your project context. Here is a short 
 | :------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :--------------------: |
 |    `idpMetadata`     | A pointer to the `XML identity provider` metadata file. This file should be located in the `<TOMCAT_CONF_FOLDER>` directory and should be provided by your identity provider. |    idp-metadata.xml    |
 |     `spMetadata`     |                          A pointer to the `XML service provider` metadata file. This file should be located in the `<TOMCAT_CONF_FOLDER>` directory.                          |    sp-metadata.xml     |
-|     `defaultURI`     |                                    Contains a relative `URI` to the main portal page. In the **Identity Analytics** context it is a `/portal` URI.                                     |    /sandbox/portal     |
-|      `forceURI`      |                                    Contains a relative `URI` to the main portal page. In the **Identity Analytics** context it is a `/portal` URI.                                     |    /sandbox/portal     |
+|     `defaultURI`     |                                Contains a relative `URI` to the main portal page. In the **Identity Analytics** context it is a `/portal` URI.                                |    /sandbox/portal     |
+|      `forceURI`      |                                Contains a relative `URI` to the main portal page. In the **Identity Analytics** context it is a `/portal` URI.                                |    /sandbox/portal     |
 |     `checkRealm`     |                         If set to `true`, once authenticated through `SAML`, the user will be pushed to the configured `Realm` with a blank password.                         |         false          |
 |  `defaultRoleList`   |                                      cCntains a list of roles who are associated to users who are successfully authenticated by the IdP.                                      |          user          |
 |   `roleAttribute`    |                                     Contains the name of the `SAML` attribute which contains a list of role as provided back by the IdP.                                      |         groups         |
@@ -208,7 +211,7 @@ From your Studio, in the `Export` tab of your project **technical configuration*
 
 Once configured, a new `SAML` authentication method is available.
 
-> Note: the SAML method is declared in the `/WEB-INF/web.xml` file under the security configuration in the `auth-method` parameter.  
+> Note: the SAML method is declared in the `/WEB-INF/web.xml` file under the security configuration in the `auth-method` parameter.
 
 ```xml
 <login-config>
@@ -216,15 +219,15 @@ Once configured, a new `SAML` authentication method is available.
 </login-config>
 ```
 
-If you don't setup `SAML` authentication schema from technical configuration, you won't be able to authenticate via `SAML`.  
+If you don't setup `SAML` authentication schema from technical configuration, you won't be able to authenticate via `SAML`.
 
-> The `SAML` configuration is declared in the `<TOMCAT_CONF_FOLDER>/SAMLAuthenticator.properties` file configured earlier.  
+> The `SAML` configuration is declared in the `<TOMCAT_CONF_FOLDER>/SAMLAuthenticator.properties` file configured earlier.
 
 ### Step 4: Deploy Identity Analytics Portal
 
 > If you are under Linux, beware of files and folders rights.
 
-Once your `<WEBAPP_NAME>` webapp is generated, the last step is to:  
+Once your `<WEBAPP_NAME>` webapp is generated, the last step is to:
 
 - Deposit it under `<TOMCAT_INSTALL_FOLDER>/webapps` folder
 - Start the Tomcat
@@ -233,10 +236,10 @@ The Portal should be accessible from your browser using `<WEBAPP_URL>/<WEBAPP_UR
 
 ## Debug
 
-To activate traces, add the following line at the end of the `/conf/logging.properties`. Do **not** use this in **production**. This is just for troubleshooting `SAML` request/response.  
+To activate traces, add the following line at the end of the `/conf/logging.properties`. Do **not** use this in **production**. This is just for troubleshooting `SAML` request/response.
 
 ```xml
-com.brainwave.tomcat.authenticator.saml.SAMLAuthenticator.level = ALL  
+com.brainwave.tomcat.authenticator.saml.SAMLAuthenticator.level = ALL
 ```
 
 ## Downloads
@@ -245,4 +248,4 @@ com.brainwave.tomcat.authenticator.saml.SAMLAuthenticator.level = ALL
 [idp-metadata.xml](https://download.brainwavegrc.com/index.php/s/8LFGDrSx8oMWrkw/download/idp-metadata.xml)  
 [rolemapping.properties](https://download.brainwavegrc.com/index.php/s/NSL5SpGRARX2LHB/download/rolemapping.properties)  
 [sp-metadata.xml](https://download.brainwavegrc.com/index.php/s/aygkqXTpA4MtAMG/download/sp-metadata.xml)  
-[staticroles.properties](https://download.brainwavegrc.com/index.php/s/9bkwpxgGbJoMpEw/download/staticroles.properties)  
+[staticroles.properties](https://download.brainwavegrc.com/index.php/s/9bkwpxgGbJoMpEw/download/staticroles.properties)

@@ -13,18 +13,18 @@ The schema below represents the cinematic behind this kind of access:
 
 ![HTTP Headers Access architecture](./images/http_header_access_architecture.png)
 
-The following procedure should work:  
+The following procedure should work:
 
-- With `Tomcat 8` and `Tomcat 9`  
-- Under `Windows` and `Linux`  
+- With `Tomcat 8.5 for Java 8` and `Tomcat 9 for Java 8 and 17`
+- Under `Windows` and `Linux`
 
 ## Pre-requisites
 
-To ensure this installation procedure, you should first download this [archive](../attachments/http_headers_configuration.zip) in the Web Server (i.e. the server that hosts the iGRC webapp).
+To ensure this installation procedure, you should first download this [archive](./attachments/http_headers_configuration.zip) in the Web Server (i.e. the server that hosts the iGRC webapp).
 
-This archive contains:  
+This archive contains:
 
-- The HTTP Headers Tomcat Valve  (`httpheadersauthenticator-1.1.jar`)
+- The HTTP Headers Tomcat Valve (`httpheadersauthenticator-1.1.jar`)
 - A configuration `Authenticator.properties` file in a dedicated folder (to deploy as-is in the right destination, see later)
 
 It is also admitted that:
@@ -38,7 +38,7 @@ It is also admitted that:
 
 The goal of the manipulation is to install an Authenticator and configure the Tomcat to use it in order to manage the HTTP Headers received from the Web Server and, from it, build/set the `Principal` to send to the iGRC webapp.
 
-In the following procedure, we will use below variables:  
+In the following procedure, we will use below variables:
 
 |               Variable                |                                  Description                                   |              Example value               |
 | :-----------------------------------: | :----------------------------------------------------------------------------: | :--------------------------------------: |
@@ -51,7 +51,7 @@ In the following procedure, we will use below variables:
 |             `WEBAPP_NAME`             |                         Name of the iGRC Tomcat webapp                         |                 sandbox                  |
 |        `WEB_INF_WEBAPP_FOLDER`        |                  **WEB-INF** folder of the iGRC Tomcat webapp                  | /var/lib/tomcat8/webapps/sandbox/WEB-INF |
 
-Here is the steps to follow:  
+Here is the steps to follow:
 
 - Unzip the archive in the `<TOMCAT_LIB_FOLDER_HOME>` folder
 
@@ -59,7 +59,7 @@ Here is the steps to follow:
 
 > If needed, take care of the files and folders rights.
 
-Under `<TOMCAT_CONF_FOLDER>` folder  
+Under `<TOMCAT_CONF_FOLDER>` folder
 
 - Create a file `HTTPHeadersAuthenticator.properties` with the below content
 - You should set the value according to your context
@@ -72,7 +72,7 @@ rolesSeparator=<HTTP_HEADER_MEMBERS_SEPARATOR_FIELD>
 roleMapping=<HTTP_HEADER_ROLE_MAPPING_FILE>
 ```
 
-Under `<TOMCAT_CONF_FOLDER>` folder  
+Under `<TOMCAT_CONF_FOLDER>` folder
 
 - Create a `<HTTP_HEADER_ROLE_MAPPING_FILE>` file
 - Fill it according to your context and following the below format
@@ -146,4 +146,4 @@ Ensure the Tomcat is listening only on localhost and reachable only from Apache 
 
 ## Downloads
 
-[http_headers_configuration.zip](../attachments/http_headers_configuration.zip)  
+[http_headers_configuration.zip](./attachments/http_headers_configuration.zip)

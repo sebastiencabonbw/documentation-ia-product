@@ -7,23 +7,23 @@ description: "LDAP Access"
 
 Identity Analytics's Web Portal relies on the security of the underlying web application server. Basically, Tomcat will be exposed to end users but it will rely on one or multiple LDAP repositories to authenticate and authorize users.
 
-This post details how to rely on `LDAP Directory` for user authentication and authorization.  
+This post details how to rely on `LDAP Directory` for user authentication and authorization.
 
-Following features will be put in place:  
+Following features will be put in place:
 
-- AuthN: `LDAP Directory` authentication (login + password)  
-- AuthZ: Roles retrieving (account direct groups will be considered as the user roles)  
+- AuthN: `LDAP Directory` authentication (login + password)
+- AuthZ: Roles retrieving (account direct groups will be considered as the user roles)
 
 The schema below represents the cinematic behind this kind of access:
 
 ![LDAP access architecture](./images/LDAP_access_architecture.png)
 
-This setting consists of adding a Tomcat `Realm` to process the account authentication on LDAP Directory through LDAP requests. The realm is a standard Tomcat feature, named `JNDIRealm`.  
+This setting consists of adding a Tomcat `Realm` to process the account authentication on LDAP Directory through LDAP requests. The realm is a standard Tomcat feature, named `JNDIRealm`.
 
-This realm setting is detailed on the following official Tomcat documentation:  
+This realm setting is detailed on the following official Tomcat documentation:
 
 - For [Tomcat 8.5](https://tomcat.apache.org/tomcat-8.5-doc/realm-howto.html#JNDIRealm)
-- For [Tomcat 9.0](https://tomcat.apache.org/tomcat-9.0-doc/realm-howto.html#JNDIRealm)  
+- For [Tomcat 9.0](https://tomcat.apache.org/tomcat-9.0-doc/realm-howto.html#JNDIRealm)
 
 The following procedure should work:
 
@@ -34,8 +34,9 @@ The following procedure should work:
 
 To ensure this installation procedure, you should first download some required Identity Analytics `<LDAP_BW_LIB>` library available [here](https://download.brainwavegrc.com/index.php/s/n3qGRqKgtADw4Hn) depending on the Tomcat version installed:
 
-- Tomcat 8: bw-tomcat-8.5-addons.jre8-X.jar
-- Tomcat 9: bw-tomcat-9.0-addons.jre8-X.jar
+- Tomcat 8.5 with Java 8: `bw-tomcat-8.5-addons.jre8-X.jar`
+- Tomcat 9 with Java 8: `bw-tomcat-9.0.XX-addons.java1.8-YYY.jar`
+- Tomcat 9 with Java 17: `bw-tomcat-9.0.XX-addons.java17-YYY.jar`
 
 It is also admitted that:
 
@@ -45,15 +46,15 @@ It is also admitted that:
 
 ## Configuration procedure
 
-In the following procedure, we will use the variables below:  
+In the following procedure, we will use the variables below:
 
-|         Variable         |                                            Description                                             |          Example value          |
-| :----------------------: | :------------------------------------------------------------------------------------------------: | :-----------------------------: |
-| `TOMCAT_INSTALL_FOLDER`  |                                  Tomcat installation root folder                                   |          /etc/tomcat9/          |
-|   `TOMCAT_CONF_FOLDER`   |                          Folder that contains Tomcat configuration files                           |        /etc/tomcat9/conf        |
-| `TOMCAT_LIB_FOLDER_HOME` |                       Folder that contains all libraries used by the Tomcat                        |     /usr/share/tomcat9/lib      |
+|         Variable         |                                                 Description                                                 |          Example value          |
+| :----------------------: | :---------------------------------------------------------------------------------------------------------: | :-----------------------------: |
+| `TOMCAT_INSTALL_FOLDER`  |                                       Tomcat installation root folder                                       |          /etc/tomcat9/          |
+|   `TOMCAT_CONF_FOLDER`   |                               Folder that contains Tomcat configuration files                               |        /etc/tomcat9/conf        |
+| `TOMCAT_LIB_FOLDER_HOME` |                            Folder that contains all libraries used by the Tomcat                            |     /usr/share/tomcat9/lib      |
 |      `LDAP_BW_LIB`       | Identity Analytics JAVA library used to perform LDAP AuthN/AuthZ. See prerequisites section to retrieve it. | bw-tomcat-9.0-addons.jre8-X.jar |
-| `LDAP_ROLE_MAPPING_FILE` |                   File that contains mapping between AD groups and Portal roles                    |     rolemapping.properties      |
+| `LDAP_ROLE_MAPPING_FILE` |                        File that contains mapping between AD groups and Portal roles                        |     rolemapping.properties      |
 
 ### LDAP information retrieving
 
@@ -66,7 +67,7 @@ For each LDAP directory, the client is willing to rely on for the **AuthN** mech
 | `LDAP name`                | Name of the LDAP directory. Does not really matter as long as it allows to identify the LDAP directory (not used in technical files).                                                                                                               |         ACME         |
 | `LDAP URL`                 | URL of the LDAP directory to be queried.                                                                                                                                                                                                            | ldaps://acme.com:636 |
 | `Service account`          | LDAP service account used to query the LDAP directory. This should be the `distiguishedName` or the `userPrincipalName`.                                                                                                                            |  acme\svc-brw-prod   |
-| `Service account password` | Password of the service account used to query the LDAP directory.                                                                                                                                                                                   |         ***          |
+| `Service account password` | Password of the service account used to query the LDAP directory.                                                                                                                                                                                   |        \*\*\*        |
 | `User base`                | The entry that is the base of the subtree containing users. If not specified, the search base is the top-level context.                                                                                                                             |    DC=acme,DC=com    |
 | `User search`              | Pattern specifying the LDAP search filter to use after substitution of the username.                                                                                                                                                                | (samAccountName={0}) |
 | `User sub tree`            | The user search scope. Set to **true** if you wish to search the entire subtree rooted at the **User base** entry. Default value is false (requests a single-level search including only the top level).                                            |         true         |
@@ -79,12 +80,12 @@ For each LDAP directory, the client is willing to rely on for the **AuthN** mech
 For each LDAP directory, if the client is willing to rely on for the **AuthZ** mechanism, you must ask for the following information (values indicated are examples):
 
 | LDAP name | Identity Analytics portal role | LDAP group      |
-| :-------- | :-------------------- | :-------------- |
-| ACME      | user                  | brw-users       |
-| ACME      | auditor               | brw-auditors    |
-| ACME      | technical admin       | brw-tech-admins |
-| ACME      | functional admin      | brw-func-admins |
-| ...       | ...                   | ...             |
+| :-------- | :----------------------------- | :-------------- |
+| ACME      | user                           | brw-users       |
+| ACME      | auditor                        | brw-auditors    |
+| ACME      | technical admin                | brw-tech-admins |
+| ACME      | functional admin               | brw-func-admins |
+| ...       | ...                            | ...             |
 
 Where:
 
@@ -100,8 +101,8 @@ The second step is to configure the LDAP AuthN/AuthZ under the Tomcat:
 
 - Under the `<TOMCAT_LIB_FOLDER_HOME>` folder, add the `<LDAP_BW_LIB>` library
 
-- Open the `<TOMCAT_CONF_FOLDER>/server.xml` file  
-  - If present, comment the **UserDatabaseRealm** realm that should be encapsulated under **LockOutRealm** realm  
+- Open the `<TOMCAT_CONF_FOLDER>/server.xml` file
+  - If present, comment the **UserDatabaseRealm** realm that should be encapsulated under **LockOutRealm** realm
 
 At this point, depending on the number of LDAP realms you want to configure, apply the corresponding case:
 
@@ -118,7 +119,7 @@ Still under `<TOMCAT_CONF_FOLDER>/server.xml` file. Create a **JNDI** and a **Ro
   ...
   <Realm className="com.brainwave.tomcat.realm.RoleMappingRealm" reloadPeriod="0" configurationFile="<LDAP_ROLE_MAPPING_FILE>">
     <!-- This is the Realm to which role mapping is applied. -->
-    <Realm 
+    <Realm
     className="org.apache.catalina.realm.JNDIRealm"
     connectionURL="<LDAP URL>"
     connectionName="<Technical account>"
@@ -149,7 +150,7 @@ Still under `<TOMCAT_CONF_FOLDER>/server.xml` file. Create a **JNDI** and a **Ro
 
 Once realms configuration are done, the next step is to create the role mapping file:
 
-- Under `<TOMCAT_CONF_FOLDER>` folder  
+- Under `<TOMCAT_CONF_FOLDER>` folder
   - Create a `<LDAP_ROLE_MAPPING_FILE>` file
   - Fill it accordingly to your context and following the format below
 
@@ -160,11 +161,11 @@ Once realms configuration are done, the next step is to create the role mapping 
 <LDAP_ROLEn>=<PORTAL_ROLEn>
 ```
 
-> Identity Analytics needs at least the **user** specific role to be mapped. Others default IAP portal roles are detailed in the [Web Portal Roles](https://developer.radiantlogic.com/ia/iap-2.0/identity-analytics/integration-guide/03-webportal-roles/) article.  
+> Identity Analytics needs at least the **user** specific role to be mapped. Others default IAP portal roles are detailed in the [Web Portal Roles](https://developer.radiantlogic.com/ia/iap-2.0/identity-analytics/integration-guide/03-webportal-roles/) article.
 
 #### Multiple LDAP
 
-Still under `<TOMCAT_CONF_FOLDER>/server.xml`:  
+Still under `<TOMCAT_CONF_FOLDER>/server.xml`:
 
 - Create as many as necessary **JNDI** and **RoleMapping** Realms to configure the connection to all LDAP directories
 
@@ -242,7 +243,7 @@ Still under `<TOMCAT_CONF_FOLDER>/server.xml`:
 
 Once realms configuration are done, the next step is to create the role mapping file:
 
-- Under `<TOMCAT_CONF_FOLDER>` folder  
+- Under `<TOMCAT_CONF_FOLDER>` folder
   - Create a `<LDAP_ROLE_MAPPING_FILE>` file
   - Fill it according to your context and following the below format
 
@@ -261,22 +262,22 @@ Once realms configuration are done, the next step is to create the role mapping 
 
 To debug the authentication settings, you can add the following information at the bottom of your `<TOMCAT_CONF_FOLDER>/logging.properties`:
 
-````properties  
+```properties
 # Authentication Realm debug
 org.apache.catalina.realm.level = ALL
 org.apache.catalina.realm.userParentHandlers=true
 org.apache.catalina.authenticator.level=ALL
 org.apache.catalina.authenticator.userParentHandlers=true
 com.brainwave.tools.RoleMappingRealm.level = ALL
-````
+```
 
 ## Examples
 
-### JNDI and RoleMapping realms for one LDAP  
+### JNDI and RoleMapping realms for one LDAP
 
-```xml  
+```xml
 <Realm className="com.brainwave.tomcat.realm.RoleMappingRealm" reloadPeriod="10" configurationFile="mappings_sample_ad_group.properties">
-  <Realm 
+  <Realm
     className="org.apache.catalina.realm.JNDIRealm"
     connectionURL="ldaps://192.168.217.136:636"
     connectionName="tomcat-jndi@demo.local"
@@ -298,9 +299,9 @@ com.brainwave.tools.RoleMappingRealm.level = ALL
 </Realm>
 ```
 
-### Role mapping  
+### Role mapping
 
-```properties  
+```properties
 user = BW_Users
 technicaladmin = BW_Managers
 ```
