@@ -8,9 +8,9 @@ You can deploy self-managed Identity Analytics on Amazon EKS, Azure Kubernetes S
 
 The table below shows the Helm chart versions to install for each Identity analytics release:
 
-| Release | `IDA_HELM` chart version | `IDA_SHARED_HELM` chart version |
+| Release | IDA_HELM chart version | IDA_SHARED_HELM chart version |
 | :------ | :----------------------: | :-----------------------------: |
-| 3.3     |          3.3.1           |              3.1.2              |
+| 3.3     |          3.3.2          |              3.2.0              |
 | 3.2     |          3.2.0           |              3.1.1              |
 | 3.1     |          3.1.0           |              3.1.0              |
 
