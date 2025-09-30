@@ -5,6 +5,22 @@ description: Descartes R5 Release Notes
 
 # Release Notes Descartes R5
 
+## Version Descartes R5 SP7
+
+### New Features
+
+- **IGRC-4847:** Added key attributes for count optimization and JSON aggregation on join components
+- **BWIPUAR-2262:** Launch tech workflows post data upload
+
+### Bug fixes
+
+- **IGRC-4844:** When using LIMIT and OFFSET with postgres, the query can be very slow
+- **COL-1605:** Workflow task expiration date is different if escalation reminder is set or not
+- **COL-1618:** Reminder dates set on a non-business day when setting up access review campaign
+- **COL-1659:** Renew reconciliations can get stuck
+- **COL-1675:** Portal freeze after launching background tasks
+- **COL-1693:** Anonymous Birt reports don't work on Descartes R5 SP5
+
 ## Version Descartes R5 SP6
 
 ### Bug fixes
