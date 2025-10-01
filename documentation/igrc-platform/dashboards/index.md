@@ -118,15 +118,15 @@ The table below describes the purpose of the toolbar's buttons:
 
 |||
 |-|-|
-|![Icon](./images/mashup_24.png "Icon") | Inserts a table component at the end of the dashboard |
-|![Icon](./images/mashup_23.png "Icon") | Inserts a gauge component at the end of the dashboard |
-|![Icon](./images/mashup_25.png "Icon")| Inserts a vertical bar chart component at the end of the dashboard |
-|![Icon](./images/mashup_22.png "Icon")| Inserts a horizontal bar chart component at the end of the dashboard |
-|![Icon](./images/mashup_22.png "Icon")| Inserts a doughnut chart component at the end of the dashboard |
-|![Icon](./images/mashup_23.png "Icon")| Inserts a pie chart component at the end of the dashboard |
-|![Icon](./images/mashup_21.png "Icon")| Allows to configure the dashboard properties (title, layout scheme, publication options) |
-| **Save** | Saves the dashboard changes to the database. If the dashboard is published, this will make the changes available to the dashboard audience |
-|  **Discard** | Discards all the changes since the last save. |
+|![Icon](./images/mashup_24.png "Icon") | Inserts a table component at the end of the dashboard <tr></tr> |
+|![Icon](./images/mashup_23.png "Icon") | Inserts a gauge component at the end of the dashboard <tr></tr>  |
+|![Icon](./images/mashup_25.png "Icon")| Inserts a vertical bar chart component at the end of the dashboard <tr></tr>  |
+|![Icon](./images/mashup_20.png "Icon")| Inserts a horizontal bar chart component at the end of the dashboard <tr></tr>  |
+|![Icon](./images/mashup_22.png "Icon")| Inserts a doughnut chart component at the end of the dashboard <tr></tr>  |
+|![Icon](./images/mashup_23.png "Icon")| Inserts a pie chart component at the end of the dashboard <tr></tr>  |
+|![Icon](./images/mashup_21.png "Icon")| Allows to configure the dashboard properties (title, layout scheme, publication options) <tr></tr>  |
+| **Save** | Saves the dashboard changes to the database. If the dashboard is published, this will make the changes available to the dashboard audience <tr></tr> |
+|  **Discard** | Discards all the changes since the last save. <tr></tr> |
 
 To add components to your dashboard, click on one of the first icons in the toolbar.
 This will display the components configuration wizard.
