@@ -5,79 +5,84 @@ description: "LDAP Access"
 
 # LDAP Access
 
-Identity Analytics's Web Portal relies on the security of the underlying web application server. Basically, Tomcat will be exposed to end users but it will rely on one or multiple LDAP repositories to authenticate and authorize users.
+Identity Analytics's Web Portal relies on the security of the underlying web application server. Tomcat is exposed to end users but relies on one or multiple LDAP repositories for authentication and authorization.
 
-This post details how to rely on `LDAP Directory` for user authentication and authorization.
+This guide explains how to use an **LDAP Directory** for user authentication and authorization by using the following features:
 
-Following features will be put in place:
+- **AuthN**: LDAP Directory authentication (login + password)  
+- **AuthZ**: Role retrieval (direct LDAP groups considered as user roles)
 
-- AuthN: `LDAP Directory` authentication (login + password)
-- AuthZ: Roles retrieving (account direct groups will be considered as the user roles)
 
-The schema below represents the cinematic behind this kind of access:
+## Architecture
 
 ![LDAP access architecture](./images/LDAP_access_architecture.png)
 
-This setting consists of adding a Tomcat `Realm` to process the account authentication on LDAP Directory through LDAP requests. The realm is a standard Tomcat feature, named `JNDIRealm`.
+Tomcat uses a **Realm** to process authentication with the LDAP Directory via LDAP requests. The standard Tomcat feature for this is called **JNDIRealm**.
 
-This realm setting is detailed on the following official Tomcat documentation:
+- [Tomcat 8.5 JNDIRealm Documentation](https://tomcat.apache.org/tomcat-8.5-doc/realm-howto.html#JNDIRealm)  
+- [Tomcat 9.0 JNDIRealm Documentation](https://tomcat.apache.org/tomcat-9.0-doc/realm-howto.html#JNDIRealm)
 
-- For [Tomcat 8.5](https://tomcat.apache.org/tomcat-8.5-doc/realm-howto.html#JNDIRealm)
-- For [Tomcat 9.0](https://tomcat.apache.org/tomcat-9.0-doc/realm-howto.html#JNDIRealm)
+This architecture works with:
+- Tomcat 8 & 9
+- Windows & Linux
 
-The following procedure should work:
-
-- With `Tomcat 8` and `Tomcat 9`
-- Under `Windows` and `Linux`
 
 ## Prerequisites
 
-To ensure this installation procedure, you should first download some required Identity Analytics `<LDAP_BW_LIB>` library available [here](https://download.brainwavegrc.com/index.php/s/n3qGRqKgtADw4Hn) depending on the Tomcat version installed:
 
-- Tomcat 8.5 with Java 8: `bw-tomcat-8.5-addons.jre8-X.jar`
-- Tomcat 9 with Java 8: `bw-tomcat-9.0.XX-addons.java1.8-YYY.jar`
-- Tomcat 9 with Java 17: `bw-tomcat-9.0.XX-addons.java17-YYY.jar`
+Download the required Identity Analytics `<LDAP_BW_LIB>` library available [here](https://download.brainwavegrc.com/index.php/s/n3qGRqKgtADw4Hn) depending on your Tomcat version:
 
-It is also admitted that:
+- **Tomcat 8.5 + Java 8**: `bw-tomcat-8.5-addons.jre8-X.jar`
+- **Tomcat 9 + Java 8**: `bw-tomcat-9.0.XX-addons.java1.8-YYY.jar`
+- **Tomcat 9 + Java 17**: `bw-tomcat-9.0.XX-addons.java17-YYY.jar`
 
-- Tomcat instance is installed and available
-- The operator has RW privileges in needed files and folders to proceed to the installation
-- Server that hosts the Tomcat can request required LDAP servers in LDAP/LDAPS ports (respectively by default port 389 and 636)
+**Assumptions:**
+- Tomcat is installed and available
+- Operator has **read/write privileges** on necessary files and folders to proceed with installation
+- Server hosting Tomcat can access LDAP/LDAPS ports (389 / 636)
 
-## Configuration procedure
 
-In the following procedure, we will use the variables below:
+## Configuration variables
+
+The following variables will be used for configuration:
 
 |         Variable         |                                                 Description                                                 |          Example value          |
 | :----------------------: | :---------------------------------------------------------------------------------------------------------: | :-----------------------------: |
 | `TOMCAT_INSTALL_FOLDER`  |                                       Tomcat installation root folder                                       |          /etc/tomcat9/          |
 |   `TOMCAT_CONF_FOLDER`   |                               Folder that contains Tomcat configuration files                               |        /etc/tomcat9/conf        |
-| `TOMCAT_LIB_FOLDER_HOME` |                            Folder that contains all libraries used by the Tomcat                            |     /usr/share/tomcat9/lib      |
-|      `LDAP_BW_LIB`       | Identity Analytics JAVA library used to perform LDAP AuthN/AuthZ. See prerequisites section to retrieve it. | bw-tomcat-9.0-addons.jre8-X.jar |
+| `TOMCAT_LIB_FOLDER_HOME` |                            Folder that contains all the libraries used by the Tomcat                            |     /usr/share/tomcat9/lib      |
+|      `LDAP_BW_LIB`       | Identity Analytics JAVA library used to perform LDAP AuthN/AuthZ. See prerequisites section to learn how to retrieve it. | bw-tomcat-9.0-addons.jre8-X.jar |
 | `LDAP_ROLE_MAPPING_FILE` |                        File that contains mapping between AD groups and Portal roles                        |     rolemapping.properties      |
 
-### LDAP information retrieving
+### 1. Retrieve LDAP information 
 
-The first step is to gather some information prior to engage in the configuration.
+For each LDAP directory (used for **AuthN**), retrieve the following information:
 
-For each LDAP directory, the client is willing to rely on for the **AuthN** mechanism, you must ask for the following information:
+| Property                   | Description                                             | Example                      |
+|-----------------------------|---------------------------------------------------------|------------------------------|
+| `LDAP name`                | Name of the LDAP directory                        | ACME                         |
+| `LDAP URL`                 | LDAP directory URL to be queried                                   | `ldaps://acme.com:636`       |
+| `Service account`          |  LDAP service account used to query the LDAP directory. It can be either the `distiguishedName` or the `userPrincipalName`.                                 | `acme\svc-brw-prod`          |
+| `Service account password` | Password of the service account used to query the LDAP directory.                              | `***`                        |
+| `User base`                | Base entry that has subtree containing users                    | `DC=acme,DC=com`             |
+| `User search`              | Expression that defines the criteria for matching user entries.        | `(samAccountName={0})`       |
+| `User sub tree`            | The user search scope. Set to true to search the entire subtree starting from the User base entry. The default is false, which limits the search to only the top-level entries.    | `true`                       |
+| `Role base`                | The base entry for the role search. If not defined, the top-level directory context is used as the default search base                            | `DC=acme,DC=com`             |
+| `Role name`                | Attribute containing identifier of the role                            | `cn`                         |
+| `Role sub tree`            |The role search scope. Set to true to search the entire subtree starting from the Role base entry. By default, it is false, limiting the search to only the top-level entries.                                     | `true`                       |
+| `Role nested`              | Enable nested roles. Set to true to allow roles to be nested within other roles. When enabled, each discovered Role name and distinguishedName is recursively searched for additional roles. The default is false.                           | `true`                       |
+| `Role search`              | The LDAP search filter used to select role entries. It can optionally include pattern replacements: {0} for the distinguished name, {1} for the username, and {2} for an attribute from the authenticated user’s directory entry.        | `(member={0})`               |
 
-| Property                   | Description                                                                                                                                                                                                                                         |    Example value     |
-| :------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------: |
-| `LDAP name`                | Name of the LDAP directory. Does not really matter as long as it allows to identify the LDAP directory (not used in technical files).                                                                                                               |         ACME         |
-| `LDAP URL`                 | URL of the LDAP directory to be queried.                                                                                                                                                                                                            | ldaps://acme.com:636 |
-| `Service account`          | LDAP service account used to query the LDAP directory. This should be the `distiguishedName` or the `userPrincipalName`.                                                                                                                            |  acme\svc-brw-prod   |
-| `Service account password` | Password of the service account used to query the LDAP directory.                                                                                                                                                                                   |        \*\*\*        |
-| `User base`                | The entry that is the base of the subtree containing users. If not specified, the search base is the top-level context.                                                                                                                             |    DC=acme,DC=com    |
-| `User search`              | Pattern specifying the LDAP search filter to use after substitution of the username.                                                                                                                                                                | (samAccountName={0}) |
-| `User sub tree`            | The user search scope. Set to **true** if you wish to search the entire subtree rooted at the **User base** entry. Default value is false (requests a single-level search including only the top level).                                            |         true         |
-| `Role base`                | The base entry for the role search. If not specified, the search base is the top-level directory context.                                                                                                                                           |    DC=acme,DC=com    |
-| `Role name`                | The attribute in a role entry containing the identifier of that role.                                                                                                                                                                               |          cn          |
-| `Role sub tree`            | the role search scope. Set to **true** if you wish to search the entire subtree rooted at the **Role base** entry. The default value is **false** (requests a single-level search including the top level only).                                    |         true         |
-| `Role nested`              | Enable nested roles. Set to **true** if you want to nest roles in roles. If configured, then every newly found **Role name** and distinguishedName will be recursively tried for a new role search. The default value is **false**.                 |         true         |
-| `Role search`              | the LDAP search filter for selecting role entries. It optionally includes pattern replacements "{0}" for the distinguished name and/or "{1}" for the username and/or "{2}" for an attribute from user's directory entry, of the authenticated user. |     (member={0})     |
 
-For each LDAP directory, if the client is willing to rely on for the **AuthZ** mechanism, you must ask for the following information (values indicated are examples):
+For each LDAP directory, if the client chooses to rely on the AuthZ mechanism, you will need to retrieve the following details (example values shown below):
+
+* LDAP name: The name of the LDAP directory. This value is only for identification and does not affect technical files.
+
+* Identity Analytics portal role: The role assigned within the Identity Analytics application. The four roles shown in the earlier table are the standard IAP roles.
+
+* LDAP group: The name of the LDAP group that assigns the corresponding Identity Analytics role to users (used if role authorization is delegated to LDAP). This value must be the LDAP group attribute returned by the LDAP query, which is chosen in the previous AuthN table under the Role name column (e.g., the cn in our example).
+
+
 
 | LDAP name | Identity Analytics portal role | LDAP group      |
 | :-------- | :----------------------------- | :-------------- |
@@ -87,31 +92,24 @@ For each LDAP directory, if the client is willing to rely on for the **AuthZ** m
 | ACME      | functional admin               | brw-func-admins |
 | ...       | ...                            | ...             |
 
-Where:
 
-- **LDAP name**: name of the LDAP directory, does not really matter as long as it allows to identify the LDAP directory (not used in technical files)
-- **Identity Analytics portal role**: role in the Identity Analytics application. The four roles listed in the above table are the IAP standard roles
-- **LDAP group**: name of the LDAP group giving the Identity Analytics role to users (in case of authorization process delegated to LDAP). This value MUST be the LDAP group's attribute returned by the LDAP query. This attribute is selected in the previous **AuthN** table, under **Role name** column (the **cn** in our example)
+### 2. Configure Tomcat
 
-### Tomcat configuration
 
-> If you are under Linux, beware of files and folders rights.
+> If you are using Linux, ensure you have an understanding of files and folders rights.
 
 The second step is to configure the LDAP AuthN/AuthZ under the Tomcat:
 
 - Under the `<TOMCAT_LIB_FOLDER_HOME>` folder, add the `<LDAP_BW_LIB>` library
 
 - Open the `<TOMCAT_CONF_FOLDER>/server.xml` file
-  - If present, comment the **UserDatabaseRealm** realm that should be encapsulated under **LockOutRealm** realm
+  - If you find a **UserDatabaseRealm** defined within the **LockOutRealm** section, comment it out.
 
-At this point, depending on the number of LDAP realms you want to configure, apply the corresponding case:
+Next, depending on the number of LDAP realms you want to configure, follow one of the two the configuration steps (single LDAP or multiple LDAP) listed below:
 
-- One LDAP case
-- Multiple LDAP case
+#### Configuration for a single LDAP
 
-#### One LDAP
-
-Still under `<TOMCAT_CONF_FOLDER>/server.xml` file. Create a **JNDI** and a **RoleMapping** Realm to configure the connection to the LDAP directory
+Within the <TOMCAT_CONF_FOLDER>/server.xml file, define a JNDI Realm and a RoleMapping Realm to configure the LDAP directory connection. 
 
 ```xml
 <!-- Use the LockOutRealm to prevent attempts to guess user passwords via a brute-force attack -->
@@ -144,30 +142,28 @@ Still under `<TOMCAT_CONF_FOLDER>/server.xml` file. Create a **JNDI** and a **Ro
 </Realm>
 ```
 
-> All above configuration values should have been retrieved during the `LDAP information retrieving` section.
+> All configuration values should already have been retrieved during the `LDAP information retrieving` section.  
 
-> **JNDIRealm** must be part of the **RoleMappingRealm**, itself part of the **LockoutRealm**.
+> The **JNDIRealm** must be included within the **RoleMappingRealm**, which in turn must be included within the **LockoutRealm**.  
 
-Once realms configuration are done, the next step is to create the role mapping file:
+After completing the realm configurations, the next step is to create the role mapping file:
 
-- Under `<TOMCAT_CONF_FOLDER>` folder
-  - Create a `<LDAP_ROLE_MAPPING_FILE>` file
-  - Fill it accordingly to your context and following the format below
+- In the `<TOMCAT_CONF_FOLDER>` directory:
+  - Create a file named `<LDAP_ROLE_MAPPING_FILE>`
+  - Populate it based on your context, using the format shown below:
 
-```properties
-<LDAP_ROLE1>=<PORTAL_ROLE1>
-<LDAP_ROLE2>=<PORTAL_ROLE2>
-...
-<LDAP_ROLEn>=<PORTAL_ROLEn>
-```
+    ```properties
+    <LDAP_ROLE1>=<PORTAL_ROLE1>
+    <LDAP_ROLE2>=<PORTAL_ROLE2>
+    ...
+    <LDAP_ROLEn>=<PORTAL_ROLEn>
+    ```
 
-> Identity Analytics needs at least the **user** specific role to be mapped. Others default IAP portal roles are detailed in the [Web Portal Roles](https://developer.radiantlogic.com/ia/iap-2.0/identity-analytics/integration-guide/03-webportal-roles/) article.
+> Identity Analytics requires at least the user-specific role to be mapped. For details on other default IAP portal roles, see the [Web Portal Roles](https://developer.radiantlogic.com/ia/iap-2.0/identity-analytics/integration-guide/03-webportal-roles/) article.
 
-#### Multiple LDAP
+#### Configuration for multiple LDAPs
 
-Still under `<TOMCAT_CONF_FOLDER>/server.xml`:
-
-- Create as many as necessary **JNDI** and **RoleMapping** Realms to configure the connection to all LDAP directories
+In <TOMCAT_CONF_FOLDER>/server.xml, define as many JNDI and RoleMapping Realms as needed to establish connections with all LDAP directories.
 
 ```xml
 <!-- Use the LockOutRealm to prevent attempts to guess user passwords via a brute-force attack -->
@@ -235,32 +231,28 @@ Still under `<TOMCAT_CONF_FOLDER>/server.xml`:
 </Realm>
 ```
 
-> All above configuration values should have been retrieved during the `LDAP information retrieving` section.
+> The **JNDIRealm** must be included within the **CombinedRealm**, which in turn must be included within the **LockoutRealm**. If **RoleMappingRealm** is used, declare those realms outside of the **CombinedRealm**.
 
-> **JNDIRealm** must be part of the **CombinedRealm**, itself part of the **LockoutRealm**.
+After completing the realm configurations, the next step is to create the role mapping file:
 
-> If **RoleMappingRealm** are used, those realms MUST be declared outside of the **CombinedRealm**.
+- In the `<TOMCAT_CONF_FOLDER>` directory:
+  - Create a file named `<LDAP_ROLE_MAPPING_FILE>`
+  - Populate it based on your context, using the format shown below:
 
-Once realms configuration are done, the next step is to create the role mapping file:
+    ```properties
+    <LDAP_ROLE1>=<PORTAL_ROLE1>
+    <LDAP_ROLE2>=<PORTAL_ROLE2>
+    ...
+    <LDAP_ROLEn>=<PORTAL_ROLEn>
+    ```
 
-- Under `<TOMCAT_CONF_FOLDER>` folder
-  - Create a `<LDAP_ROLE_MAPPING_FILE>` file
-  - Fill it according to your context and following the below format
+You can create as many mapping files as required by your realms.
 
-```properties
-<LDAP_ROLE1>=<PORTAL_ROLE1>
-<LDAP_ROLE2>=<PORTAL_ROLE2>
-...
-<LDAP_ROLEn>=<PORTAL_ROLEn>
-```
+> Identity Analytics requires at least the user-specific role to be mapped. For details on other default IAP portal roles, see the [Web Portal Roles](https://developer.radiantlogic.com/ia/iap-2.0/identity-analytics/integration-guide/03-webportal-roles/) article.
 
-> You can create as many mapping files as required by your realms.
+### 3. Debug settings
 
-> Identity Analytics needs at least the **user** specific role to be mapped. Others default IAP portal roles are detailed in the [Web Portal Roles](https://developer.radiantlogic.com/ia/iap-3.2/identity-analytics/integration-guide/03-webportal-roles/) article.
-
-## Debug
-
-To debug the authentication settings, you can add the following information at the bottom of your `<TOMCAT_CONF_FOLDER>/logging.properties`:
+To debug the authentication settings, append the following lines to the end of your `<TOMCAT_CONF_FOLDER>/logging.properties`:
 
 ```properties
 # Authentication Realm debug
@@ -305,3 +297,4 @@ com.brainwave.tools.RoleMappingRealm.level = ALL
 user = BW_Users
 technicaladmin = BW_Managers
 ```
+
