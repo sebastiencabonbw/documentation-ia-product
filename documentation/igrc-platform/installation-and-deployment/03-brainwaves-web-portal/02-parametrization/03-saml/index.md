@@ -5,36 +5,33 @@ description: "SAML Access"
 
 # SAML Access
 
-The SAML authentication allows to rely on a federated identity repository. In this case, `Tomcat` will **delegate** the `authentication` and the `authorization` mechanism to a third party (the Identity Provider).
+The SAML authentication mechanism enables the use of a federated identity repository, allowing Tomcat to delegate both authentication and authorization to a third party Identity Provider.
 
-This use case is very interesting when an **Identity Provider** has been deployed in the company or if the solution aims to be used from a **Cloud based** environment. It will literally rely on the Identity Provider for such purposes.
+This approach is particularly valuable when an Identity Provider is already deployed within the organization or when the application is intended for use in a cloud-based environment. In such cases, the system relies entirely on the external IdP for identity management.
 
-What's interesting here is that the Identity Provider does not need to be installed on the Tomcat server, it is another server.
+The Identity Provider does not need to be installed on the Tomcat server itself since it operates as a separate server.
 
 > When authenticating in **federated** mode, the protocol of choice is [SAMLv2](https://wiki.oasis-open.org/security/FrontPage#SAML_V2.0_Standard).
 
 Here is how it works:
 
-- The **User Agent (UA)** is the end user web browser
-- The **Service Provider (SP)** is the Identity Analytics tomcat web server
-- The **Identity Provider (IdP)** is the third party accountable for authentication and authorization
+- The **User Agent (UA)** is the end user's web browser
+- The **Service Provider (SP)** is the Identity Analytics Tomcat web server
+- The **Identity Provider (IdP)** is the third party service responsible for authentication and authorization 
 
 ![SAML access architecture](../images/SAML_access_architecture.png "SAML access architecture")
 
 As you can see here, everything is done through the `HTTP`/`HTTPS` protocol with simple `HTTP redirects` and `HTTP forms`.  
 When the user attempts to connect to the service provider, it detects that the user is not authenticated, generates a **challenge** in `SAML` format and redirects the user to the **identity provider** with this challenge.  
-The **identity provider** analyses the challenge, authenticates the user and redirects him to the **service provider** with a `response`. The response contains all the required information regarding the **user** and his **roles**.
+The **identity provider** processes the challenge, authenticates the user and redirects the user to the **service provider** with a `response`. The response contains all the required information regarding the user and their **roles**.
 
 The `SAML` challenge/response mechanism involves `XML`, `time stamping` and `XML digital signature` (at a glance, a challenge is sent to the **identity provider**, a response is built by the **identity provider**, it contains the user _identity_, his _roles_, the initial challenge and a validity time frame. The response is **digitally signed** by the identity provider. The response is sent back to the **service provider** which verifies the digital signature, the challenge, the validity time frame and acts accordingly).
 
-Almost all major players are now leveraging the `SAMLv2` protocol to authenticate users and are acting as **Identity providers (Idp)**:
+Most major vendors, including those listed below, now support the SAMLv2 protocol for user authentication and serve as Identity Providers (IdP):
 
 - Microsoft ADFS
 - Google G suite
-- Sales force
-
-You can also delegate authentication and authorization to best of breed solutions through the `SAMLv2` protocol:
-
+- Salesforce
 - Okta
 - InWebo
 - LastPass
@@ -42,9 +39,9 @@ You can also delegate authentication and authorization to best of breed solution
 - Forgerock
 - ...
 
-Identity Analytics is providing a sample implementation of the `SAMLv2` protocol for `Tomcat 8/9`. You will find here all the information needed to configure `SAMLv2` support for authentication and authorization with a **third party Idp**.
+Identity Analytics provides a sample implementation of the SAMLv2 protocol for Tomcat 8/9. This guide includes all the information required to configure SAMLv2 authentication and authorization with a third-party IdP.
 
-This implementation is `SAMLv2` compliant and should be used with **any identity providers** `SAMLv2` compliant.
+This implementation is `SAMLv2` compliant and should be used with **any SAMLv2 compliant identity providers** .
 
 ## Configuration procedure
 
@@ -52,20 +49,20 @@ This implementation is `SAMLv2` compliant and should be used with **any identity
 
 First step is to declare your Identity Analytics Web application in order for the IdP to recognize it and perform AuthN/AuthZ process for User Agent request coming from the application.
 
-Identity Analytics provides some samples regarding some IdP:
+Here are some samples provided by Identity Analytics:
 
 - [Okta](./okta.md)
 - [InWebo](./inwebo.md)
 - [G-Suite](./gsuite.md)
 - [ADFS](./adfs.md)
 
-> [!warning] The information listed above is provided as an example only. This methodology is not supported by Identity Analytics, but has been tested.
+> [!warning] These samples are provided as examples. This methodology is not supported by Identity Analytics, but has been tested.
 
-At the end, no matter the IdP solution, a XML metadata file that represents this SP configuration should be generated and provided by the IdP to be deployed in SP side (see later in this article).
+Regardless of the IdP solution you choose, an XML metadata file that represents this SP configuration should be generated and provided by the IdP to be deployed in SP side (more on this later in this document).
 
 ### Step 2: Deploy SAML configuration in Tomcat
 
-In the following procedure, we will use below variables:
+We will use these variables for the configuration:
 
 |         Variable         |                                      Description                                       |          Example value          |
 | :----------------------: | :------------------------------------------------------------------------------------: | :-----------------------------: |
@@ -84,7 +81,7 @@ In the following procedure, we will use below variables:
 
 #### Prerequisites
 
-To ensure this installation procedure, you should first download some required `<SAML_BW_ARCHIVE>` and `<SAML_BW_LIB>` Identity Analytics libraries available [here](https://download.brainwavegrc.com/index.php/s/n3qGRqKgtADw4Hn) depending on the Tomcat version installed:
+First download the appropriate `<SAML_BW_ARCHIVE>` and `<SAML_BW_LIB>` Identity Analytics libraries available [here](https://download.brainwavegrc.com/index.php/s/n3qGRqKgtADw4Hn) depending on the Tomcat version installed:
 
 - Tomcat 8.5 (tested with **Tomcat 8.5.9**) with Java 8
   - `bw-tomcat-8.5-saml-libs.zip`
@@ -96,20 +93,18 @@ To ensure this installation procedure, you should first download some required `
   - `bw-tomcat-9.0.XX-saml-libs-java17-YYY.zip`
   - `bw-tomcat-9.0.XX-addons.java17-YYY.jar`
 
-It is also admitted that:
+Ensure the following:
 
-- Tomcat instance is installed and available
-- The operator has RW privileges in needed files and folders to proceed to the installation
+- Tomcat instance is installed and available.
+- The operator has RW privileges in needed files and folders to proceed with the installation.
 
 > This sample implementation relies on [OpenSAML](https://wiki.shibboleth.net/confluence/display/OpenSAML/Home) and [LastPass SAML](https://github.com/lastpass/saml-sdk-java), both provided under `Apache License`, Version 2.0.
 
 #### Tomcat configuration
 
-> If you are under Linux, beware of files and folders rights.
+> If you are using Linux, be mindful of file and folder permissions.
 
-First step is to deploy Identity Analytics SAML libraries, JDBC driver and Authenticators in Tomcat:
-
-Under the `<TOMCAT_LIB_FOLDER_HOME>` folder.
+First step is to deploy Identity Analytics SAML libraries, JDBC driver and Authenticators in Tomcat. To do so, navigate to the `<TOMCAT_LIB_FOLDER_HOME>` folder and perform these steps:
 
 - Add following files: `<SAML_BW_ARCHIVE>`
 - Unzip the archive in this folder: `<SAML_BW_LIB>`
@@ -140,7 +135,7 @@ SPNEGO=org.apache.catalina.authenticator.SpnegoAuthenticator
 SAML=com.brainwave.tomcat.authenticator.saml.SAMLAuthenticator
 ```
 
-Next step is to create and configure the `SAMLAuthenticator.properties` file. Under the `<TOMCAT_CONF_FOLDER>` folder, Create a `SAMLAuthenticator.properties` file with below content.
+Next step is to create and configure the `SAMLAuthenticator.properties` file. Insie `<TOMCAT_CONF_FOLDER>` folder, create a `SAMLAuthenticator.properties` file with the following content:
 
 ```properties
 # SAML Authenticator property file
@@ -180,7 +175,7 @@ defaultURI=<WEBAPP_URI>
 forceURI=<WEBAPP_URI>
 ```
 
-Above fields should be set accordingly to your project context. Here is a short description of those configuration attributes.
+Set the values of these fields based on your project context. Below is a brief description of each configuration attribute.
 
 |       Variable       |                                                                                  Description                                                                                  |     Example value      |
 | :------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :--------------------: |
@@ -196,11 +191,11 @@ Above fields should be set accordingly to your project context. Here is a short 
 |    `genericUsers`    |                                                      Property that can substitute an individual with a generic account.                                                       |          user          |
 | `genericUserPattern` |                                                                    Property used to format the user login                                                                     |  {login} ({generic})   |
 
-For each property, you can find more details For each property, you can find more details [here](./saml-authenticators-properties).
+For each property, you can find more details [here](./saml-authenticators-properties).
 
 ### Step 3: Identity Analytics Portal generation
 
-From your Studio, in the `Export` tab of your project **technical configuration**:
+In your Studio, navigate to the `Export` tab for your project's **technical configuration**:
 
 - Select `SAML authentication`
 
@@ -225,14 +220,14 @@ If you don't setup `SAML` authentication schema from technical configuration, yo
 
 ### Step 4: Deploy Identity Analytics Portal
 
-> If you are under Linux, beware of files and folders rights.
+> If you are using Linux, be mindful of file and folder permissions.
 
 Once your `<WEBAPP_NAME>` webapp is generated, the last step is to:
 
-- Deposit it under `<TOMCAT_INSTALL_FOLDER>/webapps` folder
-- Start the Tomcat
+- Copy it to `<TOMCAT_INSTALL_FOLDER>/webapps` folder
+- Start the Tomcat.
 
-The Portal should be accessible from your browser using `<WEBAPP_URL>/<WEBAPP_URI>`.
+The portal should be accessible from your browser using `<WEBAPP_URL>/<WEBAPP_URI>`.
 
 ## Debug
 
