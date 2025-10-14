@@ -7,38 +7,36 @@ description: "HTTP Headers Access"
 
 This kind of access mechanism is possible when the AuthN/AuthZ process is delegated to an upstream component (a Shibbolett agent deployed in an Apache Web Server for instance).
 
-It supposes that the AuthN/AuthZ module inserts credentials information in headers of the HTTP request.
+In this setup, the AuthN/AuthZ module inserts user credential information into the HTTP request headers.
 
-The schema below represents the cinematic behind this kind of access:
+The diagram below illustrates the flow of this type of access:
 
 ![HTTP Headers Access architecture](./images/http_header_access_architecture.png)
 
-The following procedure should work:
+The following configuration has been validated:
+- Tomcat 8.5 (Java 8) and Tomcat 9 (Java 8 and 17)
+- Operating systems: Windows and Linux
 
-- With `Tomcat 8.5 for Java 8` and `Tomcat 9 for Java 8 and 17`
-- Under `Windows` and `Linux`
 
 ## Pre-requisites
 
-To ensure this installation procedure, you should first download this [archive](./attachments/http_headers_configuration.zip) in the Web Server (i.e. the server that hosts the iGRC webapp).
+First step is to download [this archive](./attachments/http_headers_configuration.zip) in the Web Server (i.e. the server that hosts the iGRC webapp).
 
-This archive contains:
+The archive contains:
 
 - The HTTP Headers Tomcat Valve (`httpheadersauthenticator-1.1.jar`)
 - A configuration `Authenticator.properties` file in a dedicated folder (to deploy as-is in the right destination, see later)
 
-It is also admitted that:
+Ensure that:
 
 - Tomcat instance is installed and available
 - The operator has RW privileges in needed files and folders to proceed to the installation
 
-## Installation procedure
+## Installation 
 
-> If you are under Linux, beware of files and folders rights.
+> If you are using Linux, be mindful of files and folders permissions.
 
-The goal of the manipulation is to install an Authenticator and configure the Tomcat to use it in order to manage the HTTP Headers received from the Web Server and, from it, build/set the `Principal` to send to the iGRC webapp.
-
-In the following procedure, we will use below variables:
+The objective of this setup is to install an Authenticator and configure Tomcat to use it for handling the HTTP headers received from the web server. Based on this information, Tomcat will build and assign a Principal that is then passed to the Identity Analytics web application. We will use these variables for the installation:
 
 |               Variable                |                                  Description                                   |              Example value               |
 | :-----------------------------------: | :----------------------------------------------------------------------------: | :--------------------------------------: |
@@ -51,18 +49,17 @@ In the following procedure, we will use below variables:
 |             `WEBAPP_NAME`             |                         Name of the iGRC Tomcat webapp                         |                 sandbox                  |
 |        `WEB_INF_WEBAPP_FOLDER`        |                  **WEB-INF** folder of the iGRC Tomcat webapp                  | /var/lib/tomcat8/webapps/sandbox/WEB-INF |
 
-Here is the steps to follow:
+Follow these steps:
 
 - Unzip the archive in the `<TOMCAT_LIB_FOLDER_HOME>` folder
 
 ![HTTP Headers archive unzip](./images/http_headers_archive_unzip.png)
 
-> If needed, take care of the files and folders rights.
+Ensure you have proper folder and files permissions if needed.
 
-Under `<TOMCAT_CONF_FOLDER>` folder
+Inside `<TOMCAT_CONF_FOLDER>` folder:
 
-- Create a file `HTTPHeadersAuthenticator.properties` with the below content
-- You should set the value according to your context
+- Create a file `HTTPHeadersAuthenticator.properties` with the following content and enter appropriate values:
 
 ```properties
 defaultRoleList=user
@@ -72,7 +69,7 @@ rolesSeparator=<HTTP_HEADER_MEMBERS_SEPARATOR_FIELD>
 roleMapping=<HTTP_HEADER_ROLE_MAPPING_FILE>
 ```
 
-Under `<TOMCAT_CONF_FOLDER>` folder
+Inside `<TOMCAT_CONF_FOLDER>` folder:
 
 - Create a `<HTTP_HEADER_ROLE_MAPPING_FILE>` file
 - Fill it according to your context and following the below format
@@ -84,7 +81,7 @@ Under `<TOMCAT_CONF_FOLDER>` folder
 <SHIBBOLETT_ROLEn>=<PORTAL_ROLEn>
 ```
 
-Copy the `web.xml` file from the `<WEB_INF_WEBAPP_FOLDER>` folder in the `<TOMCAT_CONF_FOLDER>` folder
+Copy the `web.xml` file from the `<WEB_INF_WEBAPP_FOLDER>` folder to the `<TOMCAT_CONF_FOLDER>` folder
 
 - Rename the copy as `<WEBAPP_NAME>-web.xml`
 - Set the rights accordingly
@@ -96,7 +93,7 @@ Copy the `web.xml` file from the `<WEB_INF_WEBAPP_FOLDER>` folder in the `<TOMCA
 </login-config>
 ```
 
-> Note: Take care if you regenerate the WAR file, you should check if the `web.xml` file has not been modified. If so, you should make again this manipulation.
+> If you regenerate the WAR file, ensure that the web.xml file has not been altered. If it has, you will need to repeat this configuration.
 
 - Create a file `<WEBAPP_NAME>.xml` under `<TOMCAT_CONF_FOLDER>/Catalina/localhost` folder with the below content
   - Set the rights accordingly
@@ -108,11 +105,11 @@ Copy the `web.xml` file from the `<WEB_INF_WEBAPP_FOLDER>` folder in the `<TOMCA
 </Context>
 ```
 
-> Note: Take care of the relative path configured to the deployment descriptor. The base used is the `$CATALINA_HOME` global variable.
+> Ensure the relative path for the deployment descriptor is correct. The base used is the `$CATALINA_HOME` global variable.
 
-- Open the `server.xml` file in the `<TOMCAT_CONF_FOLDER>` folder
-  - If present, remove the **org.apache.catalina.realm.UserDatabaseRealm** realm
-  - If, after this removal, the **org.apache.catalina.realm.LockOutRealm** realm is empty, you can also remove it
+- Open the `server.xml` file in the `<TOMCAT_CONF_FOLDER>` folder.
+  - If present, remove the **org.apache.catalina.realm.UserDatabaseRealm** realm.
+  - After this removal, if the the **org.apache.catalina.realm.LockOutRealm** realm is empty, you can remove that as well.
 
 ```xml
 <!-- Use the LockOutRealm to prevent attempts to guess user passwords
@@ -136,14 +133,15 @@ To debug the authentication settings, you can add the following information at t
 com.brainwave.utils.level = ALL
 ```
 
-Where all steps have been performed, you can restart the Tomcat service. Logs should be visible in `catalina` log files.
+Once all these steps have been performed, you can restart the Tomcat service. Logs should be visible in `catalina` log files.
 
 ## Security
 
-Ensure the Tomcat is listening only on localhost and reachable only from Apache for HTTP protocol. You can make this check in the `<TOMCAT_CONF_FOLDER>/server.xml`.
+Ensure the Tomcat is listening only on localhost and reachable only from Apache for HTTP protocol. You can verify this in the `<TOMCAT_CONF_FOLDER>/server.xml`.
 
 ![HTTP Headers archive unzip](./images/http_headers_server_xml.png)
 
 ## Downloads
 
 [http_headers_configuration.zip](./attachments/http_headers_configuration.zip)
+
