@@ -17,7 +17,14 @@ description: Descartes R5 Release Notes
 - **IGRC-4844:** When using LIMIT and OFFSET with postgres, the query can be very slow
 - **COL-1605:** Workflow task expiration date is different if escalation reminder is set or not
 - **COL-1618:** Reminder dates set on a non-business day when setting up access review campaign
-- **COL-1659:** Renew reconciliations can get stuck
+- **COL-1659:** Renew reconciliations can get stuck. You can now independently disable history searches during reconciliation renewals with new Java options. This helps prevent issues where renewals get stuck.
+  - `-Ddisablereconsearchinhistoryforleavers=true`
+    Disable the search of identities in history when renewing a 'leave' reconciliation.
+    When a 'leave' reconciliation exists in the previous timeslot, the product tries to find the latest reconciliation in the history to        find the identity and renew this one if the identity exists in the current timeslot.
+  - `-Ddisablereconsearchinhistoryfororphans=true`
+    Disable the search of reconciliation in history when renewing an 'orphan' reconciliation.
+    When no reconciliation is found for an account in the previous timeslot, the product tries to find the latest reconciliation in the         history to renew it (either identity or service reconciliation) in the current timeslot.
+    
 - **COL-1675:** Portal freeze after launching background tasks
 - **COL-1693:** Anonymous Birt reports don't work on Descartes R5 SP5
 
