@@ -22,10 +22,10 @@ Here are the matching icons for each status:
 ### Timeslot specific attributes
 
 Some attributes in the `Ledger` (or data model) are **timeslot specific**.  
-See [specific attributes linked to time](../getting-started/#specific-attributes-linked-to-time).
+See [specific attributes linked to time](./getting-started/#specific-attributes-linked-to-time).
 
 ### iGRC Purge
 
 You can use **igrc_purge.cmd** either with the purge from the technical configuration (`purge` tab), or by passing the timeslot status (one of the values from above).
 
-> For detailed information on the purge, see [purge of timeslots](./02-purge-of-timeslots.md).
+> For detailed information on the purge, see [purge of timeslots](/02-purge-of-timeslots.md).

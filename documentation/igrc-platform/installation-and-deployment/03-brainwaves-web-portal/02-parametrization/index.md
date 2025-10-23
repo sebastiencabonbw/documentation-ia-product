@@ -379,10 +379,10 @@ Dynamic roles are set using business rules based on data from Ledger and are **p
 
 Apache foundation provides standards Tomcat components to authenticate and authorize. Identity Analytics exploits some of them:
 
-- [Basic form](01-basic)
-- [LDAP](02-ldap)
-- [SAML](03-saml/index)
-- [HTTP Headers](04-http-headers)
+- [Basic form](/01-basic)
+- [LDAP](/02-ldap)
+- [SAML](/03-saml/index)
+- [HTTP Headers](/04-http-headers)
 
 ### Portal Identity
 
@@ -422,4 +422,4 @@ Once dynamic roles are determined, this list is concatenated to the static user 
 
 ![Portal Identity view](../images/portal_roles_and_features.png)
 
-More information about Roles and Features can be found [here](../../../pages/21-features-and-roles/index).
+More information about Roles and Features can be found [here](../../pages/21-features-and-roles/index).
