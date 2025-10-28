@@ -9,7 +9,7 @@ The SmartSearch feature allows the user to build constrained requests for the Le
 
 ![Smart Search example](./images/labels_smartsearch_example.png)
 
-You can find [here](/igrc-platform/smart-search/assets/SmartSearch_labels.csv) all available criterias. The structure is following:
+You can find [here](./assets/SmartSearch_labels.csv) all available criterias. The structure is following:
 
 |         Header         |                              Description                               |                 Example value                  |
 | :--------------------: | :--------------------------------------------------------------------: | :--------------------------------------------: |
@@ -22,7 +22,7 @@ You can find [here](/igrc-platform/smart-search/assets/SmartSearch_labels.csv) a
 
 ## Downloads
 
-[SmartSearch_labels.csv](/igrc-platform/smart-search/assets/SmartSearch_labels.csv)
+[SmartSearch_labels.csv](./assets/SmartSearch_labels.csv)
 
 ## Escape characters
 
