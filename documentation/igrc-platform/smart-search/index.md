@@ -22,7 +22,7 @@ You can find [here](./assets/SmartSearch_labels.csv) all available criterias. Th
 
 ## Downloads
 
-[SmartSearch_labels.csv](./assets/SmartSearch_labels.csv)
+[SmartSearch_labels.csv](./smart-search/assets/SmartSearch_labels.csv)
 
 ## Escape characters
 
