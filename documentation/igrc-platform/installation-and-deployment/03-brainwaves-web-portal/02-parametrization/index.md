@@ -379,10 +379,10 @@ Dynamic roles are set using business rules based on data from Ledger and are **p
 
 Apache foundation provides standards Tomcat components to authenticate and authorize. Identity Analytics exploits some of them:
 
-- [Basic form](/01-basic)
-- [LDAP](/02-ldap)
-- [SAML](/03-saml/index)
-- [HTTP Headers](/04-http-headers)
+- [Basic form](/igrc-platform/installation-and-deployment/03-brainwaves-web-portal/02-parametrization/01-basic/)
+- [LDAP](/igrc-platform/installation-and-deployment/03-brainwaves-web-portal/02-parametrization/02-ldap)
+- [SAML](/igrc-platform/installation-and-deployment/03-brainwaves-web-portal/02-parametrization/03-saml/index)
+- [HTTP Headers](/igrc-platform/installation-and-deployment/03-brainwaves-web-portal/02-parametrization/04-http-headers)
 
 ### Portal Identity
 
