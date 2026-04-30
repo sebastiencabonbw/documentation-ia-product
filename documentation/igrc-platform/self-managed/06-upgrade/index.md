@@ -8,4 +8,5 @@ You will find here information about the new releases:
 
 Versions:
 
+- [Version 3.5.3](./migration-3.5.3.md)
 - [Version 3.5.1](./migration-3.5.1.md)

@@ -4,6 +4,14 @@ Please find below the release notes for Identity Analytics in self-managed. For 
 
 See [vulnerability fixes](./08-vulnerability-fixes.md) for the full list patch versions with fixed vulnerabilities in the images.
 
+## Version 3.5.3
+
+Release date: 2026 March 27
+
+> See [Migration 3.5.3](./06-upgrade/migration-3.5.3.md)
+
+Only includes [vulnerability fixes](./08-vulnerability-fixes.md).
+
 ## Version 3.5.1
 
 Release date: 2026 March 13
