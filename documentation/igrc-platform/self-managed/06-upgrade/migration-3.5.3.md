@@ -19,3 +19,37 @@ After completing both upgrades, verify that the cleanup has been successfully pe
 - Ensure that all IDA EventSource resources have been deleted.
 - Confirm that the ArgoCD operator is no longer present in the Shared Services namespace.
 - Verify that all related CRDs have been removed from the cluster.
+
+# ArgoCD replacement in IDA 3.5.3
+
+To address a CVE vulnerability introduced by the third-party ArgoCD component, IDA replaces ArgoCD with an internal **Service Ops Manager** starting in version **3.5.3**.
+
+The Service Ops Manager now handles:
+
+- Portal restart operations
+- Database maintenance jobs
+- Git synchronization operations
+
+## Backward compatibility
+
+For backward compatibility, IDA 3.5.3 can still use the previous ArgoCD-based behavior by setting:
+
+```yaml
+argoEvents.enabled: false
+```
+
+Using this fallback mode is **not recommended** for self-hosted deployments.
+
+## Compatibility matrix
+
+The table below shows compatibility between platform versions and the `argoEvents.enabled` flag value.
+
+|          | IDA 3.5.2 | IDA 3.5.3         | IDA 3.6.0 |
+| -------- | --------- | ----------------- | --------- |
+| SS 3.3.1 | **X**     | `true` or `false` | **X**     |
+| SS 3.3.2 | **X**     | `false` only      | **X**     |
+| SS 3.4.0 | **X**     | `true` or `false` | **X**     |
+
+- **IDA**: Identity Analytics
+- **SS**: Shared Services
+- **X**: Unsupported combination
