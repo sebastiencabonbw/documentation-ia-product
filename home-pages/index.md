@@ -7,6 +7,7 @@ description: Guides to help build, configure and use Identity Analytics
   <tablist>
     <tab>Knowledge</tab>
     <tab>Developer</tab>
+    <tab>Marketplace</tab>
   </tablist>
 
   <tabpanels>
@@ -219,5 +220,14 @@ For customers under maintenance/subscription contract as well as official partne
 </section>
 
 </tabpanel>
+
+<tabpanel>
+  
+# Identity Analytics Data Extractor Marketplace
+
+ Browse all available Identity Analytics Extractors by vising the [Marketplace](https://marketplace.radiantlogic.com/).  
+  
+</tabpanel>
+  
 <tabpanel>
 </tabs>  
