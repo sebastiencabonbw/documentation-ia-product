@@ -12,9 +12,9 @@ This document covers a list of certified operating environments for Identity Ana
 Operating systems are third‑party components and are not included with Identity Analytics.
 Identity Analytics is composed of the following main modules:
 
-* Studio
-* Batch
-* Web Portal
+- Studio
+- Batch
+- Web Portal
 
 The table below provides the operating system support matrix for each module:
 
@@ -36,6 +36,17 @@ Please see footnotes (links available in the above mentioned table) for more inf
 Java Development Kits (JDKs) are third‑party components and are not included with Identity Analytics.
 Refer to the table below for details on the supported versions of Java.
 
+### Descartes R6 and newer
+
+|                         | **Windows[^2]** | **Linux RHEL 9** | **Linux Debian** |
+| :---------------------: | :-------------: | :--------------: | :--------------: |
+|   **Java SE JDK 21**    |      **X**      |                  |                  |
+|     **Open JDK 21**     |                 |      **X**       |      **X**       |
+|     **Corretto 21**     |      **X**      |                  |                  |
+| **AdoptOpenJDK 21 LTS** |      **X**      |                  |                  |
+
+### Descartes R5 and older
+
 |                         | **Windows[^2]** | **Linux RHEL 9** | **Linux Debian** |
 | :---------------------: | :-------------: | :--------------: | :--------------: |
 |   **Java SE JDK 17**    |      **X**      |                  |                  |
@@ -49,9 +60,9 @@ Refer to the table below for details on the supported versions of Java.
 
 Database servers are third‑party components and are not included with Identity Analytics. Identity Analytics supports the following database servers:
 
-* Microsoft SQL Server
-* PostgreSQL
-* Oracle
+- Microsoft SQL Server
+- PostgreSQL
+- Oracle
 
 The database support matrix, organized by operating system, is provided below.
 
@@ -82,9 +93,9 @@ The database support matrix, organized by operating system, is provided below.
 
 For more information, refer to the official RMDS support lifecycles:
 
-* [postgres](https://www.postgresql.org/support/versioning/)
-* [Microsoft SQL server](https://learn.microsoft.com/en-us/lifecycle/products/?terms=sql%20server)
-* [Oracle](https://endoflife.date/oracle-database)
+- [postgres](https://www.postgresql.org/support/versioning/)
+- [Microsoft SQL server](https://learn.microsoft.com/en-us/lifecycle/products/?terms=sql%20server)
+- [Oracle](https://endoflife.date/oracle-database)
 
 > [!warning] Retrieve the PostgreSQL version corresponding to your target distribution. Do not recompile the PostgreSQL kernel.
 
@@ -92,9 +103,9 @@ For more information, refer to the official RMDS support lifecycles:
 
 The database drivers used must be compatible with the version of Java in use. The following drivers have been certified with Identity Analytics:
 
-* `mssql-jdbc-11.2.1.jre17.jar` and `mssql-jdbc-12.2.0.jre11.jar`
-* `ojdbc11.jar`
-* `postgresql-42.5.1`
+- `mssql-jdbc-11.2.1.jre17.jar` and `mssql-jdbc-12.2.0.jre11.jar`
+- `ojdbc11.jar`
+- `postgresql-42.5.1`
 
 > If you are using an Oracle JDBC driver, download the version that matches your database engine. More details are available [here](https://www.oracle.com/fr/database/technologies/appdev/jdbc-downloads.html).
 
@@ -103,8 +114,8 @@ The database drivers used must be compatible with the version of Java in use. Th
 Oracle and Microsoft SQL Server JDBC drivers are third‑party components and are not included with Identity Analytics.
 For installation instructions, refer to the following guides:
 
-* [How-To install and use Microsoft SQL server official driver](../../how-to/database/sqlserver/install-sqlserver-driver.md)
-* [How-to install and use the official Oracle database driver](../../how-to/database/oracle/install-orcl-driver.md)
+- [How-To install and use Microsoft SQL server official driver](../../how-to/database/sqlserver/install-sqlserver-driver.md)
+- [How-to install and use the official Oracle database driver](../../how-to/database/oracle/install-orcl-driver.md)
 
 ## Java Application Server
 
@@ -132,7 +143,7 @@ Refer to Microsoft’s official Edge support lifecycle documentation:
 
 [^1]: As of version Braille, Oracle is only supported in the case of existing and deployed projects. In the case of a new project only Microsoft SQL server and PostgreSQL are supported.
 
-[^2]: All versions of java 17
+[^2]: All versions of Java 17 for Descartes R5 or older, Java 21 for Descartes R6 or newer
 
 [^debianLTS]: Refer to Debian's official documentation for more information: <https://wiki.debian.org/LTS>
 

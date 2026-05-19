@@ -3,6 +3,26 @@ title: Release Notes
 description: Descartes R5 Release Notes
 ---
 
+# Release Notes Descartes R6
+
+> Release date: 2026-05-19
+
+### Prerequisites
+
+**Requires** `Java 21`
+
+### New Features
+
+- Add SQL projections to views
+
+### Bug fixes
+
+- **COL-1722:** The incoming request contains too many parameters error during purge
+- **BWIPUAR-2314:** translation issue with smartsearch (temporal criteria)
+- **BWIPUAR-2603:** Reduce business view logs when filtering entries
+- **BWIPUAR-2620:** crosstable clustering optimization
+- **BWIPUAR-2690:** Content suggestion in views does not list all columns/attributes
+
 # Release Notes Descartes R5
 
 ## Version Descartes R5 SP8
