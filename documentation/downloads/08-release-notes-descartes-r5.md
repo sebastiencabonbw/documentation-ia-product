@@ -3,13 +3,33 @@ title: Release Notes
 description: Descartes R5 Release Notes
 ---
 
+# Release Notes Descartes R6
+
+> Release date: 2026-05-19
+
+### Prerequisites
+
+**Requires** `Java 21`
+
+### New Features
+
+- Add SQL projections to views
+
+### Bug fixes
+
+- **COL-1722:** Fixed an issue where purge operations could fail with a “The incoming request contains too many parameters” error.
+- **BWIPUAR-2314:** Fixed a translation issue affecting Smart Search temporal criteria.
+- **BWIPUAR-2603:** Reduced business view logs when filtering entries.
+- **BWIPUAR-2620:** Optimized cross-table clustering.
+- **BWIPUAR-2690:** Fixed an issue where content suggestions in views did not display all available columns and attributes.
+
 # Release Notes Descartes R5
 
 ## Version Descartes R5 SP8
 
 ### Bug fixes
 
-- **IGRC-4855** some trawpermlinkreview are not renewed on next timeslot
+- **IGRC-4855** Fixed an issue where some trawpermlinkreview entries were not renewed during the next timeslot.
 
 ## Version Descartes R5 SP7
 

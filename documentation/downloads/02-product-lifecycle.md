@@ -22,7 +22,8 @@ description: iGRCanalytics product lifecycle
 | Eiffel R2 SP1        |  30/09/2025  | :white_check_mark: |                    |                    |   31/12/2029   |
 | Eiffel R2 (SP0-)     |  30/09/2025  |                    |                    | :white_check_mark: |   31/12/2029   |
 | Eiffel R1            |  30/09/2025  |                    |                    | :white_check_mark: |   31/12/2029   |
-| Descartes R5 SP8     |  03/02/2026  | :white_check_mark: |                    |                    |   31/12/2027   |
+| Descartes R6         |  19/05/2026  | :white_check_mark: |                    |                    |   31/12/2027   |
+| Descartes R5 SP8     |  03/02/2026  |                    |                    |                    |   31/12/2027   |
 | Descartes R5 (SP0-7) |  13/08/2024  |                    |                    | :white_check_mark: |   31/12/2027   |
 | Descartes R4         |  01/07/2024  |                    |                    | :white_check_mark: |   31/12/2027   |
 | Descartes R3         |  06/05/2024  |                    |                    | :white_check_mark: |   31/12/2027   |
@@ -34,7 +35,7 @@ description: iGRCanalytics product lifecycle
 > As a reminder Eiffel version is ONLY supported for the following types of deployments:
 >
 > - SaaS
-> - Self-managed  
+> - Self-managed
 
 ### Unsupported versions
 
