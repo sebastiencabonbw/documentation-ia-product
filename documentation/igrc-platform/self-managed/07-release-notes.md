@@ -10,8 +10,8 @@ Release date: 2026 May 19
 
 > See [Migration 3.5.3](./06-upgrade/migration-3.6.0.md)
 
-- **BWIPUAR-2627** - Update batch log cleanup policy
-- **BWIPUAR-2563 Allow** - to configure login page to directly redirect to a preconfigured IDP
+- **BWIPUAR-2627** - Updated batch log cleanup policy.
+- **BWIPUAR-2563** - Added support for automatically redirecting users from the login page to a preconfigured Identity Provider (IdP) to improve the authentication experience.
 
 ## Version 3.5.3
 
