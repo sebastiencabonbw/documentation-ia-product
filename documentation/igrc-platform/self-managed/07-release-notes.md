@@ -4,6 +4,15 @@ Please find below the release notes for Identity Analytics in self-managed. For 
 
 See [vulnerability fixes](./08-vulnerability-fixes.md) for the full list patch versions with fixed vulnerabilities in the images.
 
+## Version 3.6.0
+
+Release date: 2026 May 19
+
+> See [Migration 3.5.3](./06-upgrade/migration-3.6.0.md)
+
+- **BWIPUAR-2627** - Update batch log cleanup policy
+- **BWIPUAR-2563 Allow** - to configure login page to directly redirect to a preconfigured IDP
+
 ## Version 3.5.3
 
 Release date: 2026 March 27
