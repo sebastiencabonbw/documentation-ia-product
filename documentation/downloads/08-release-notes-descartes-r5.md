@@ -17,11 +17,11 @@ description: Descartes R5 Release Notes
 
 ### Bug fixes
 
-- **COL-1722:** The incoming request contains too many parameters error during purge
-- **BWIPUAR-2314:** translation issue with smartsearch (temporal criteria)
-- **BWIPUAR-2603:** Reduce business view logs when filtering entries
-- **BWIPUAR-2620:** crosstable clustering optimization
-- **BWIPUAR-2690:** Content suggestion in views does not list all columns/attributes
+- **COL-1722:** Fixed an issue where purge operations could fail with a “The incoming request contains too many parameters” error.
+- **BWIPUAR-2314:** Fixed a translation issue affecting Smart Search temporal criteria.
+- **BWIPUAR-2603:** Reduced business view logs when filtering entries.
+- **BWIPUAR-2620:** Optimized cross-table clustering.
+- **BWIPUAR-2690:** Fixed an issue where content suggestions in views did not display all available columns and attributes.
 
 # Release Notes Descartes R5
 
@@ -29,7 +29,7 @@ description: Descartes R5 Release Notes
 
 ### Bug fixes
 
-- **IGRC-4855** some trawpermlinkreview are not renewed on next timeslot
+- **IGRC-4855** Fixed an issue where some trawpermlinkreview entries were not renewed during the next timeslot.
 
 ## Version Descartes R5 SP7
 
