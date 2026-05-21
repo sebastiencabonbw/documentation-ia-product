@@ -11,6 +11,8 @@ description: Descartes R5 Release Notes
 
 **Requires** `Java 21`
 
+Add the following java9 option to your tomcat: `--add-opens=java.base/java.net=ALL-UNNAMED`.
+
 ### New Features
 
 - Add SQL projections to views
